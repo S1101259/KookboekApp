@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "1073679345675",
+    "firebase_url": "https://kookboekapp-1337.firebaseio.com",
+    "project_id": "kookboekapp-1337",
+    "storage_bucket": "kookboekapp-1337.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1073679345675:android:581319517f1c2a5d",
+        "android_client_info": {
+          "package_name": "nl.raymon.henk.kookbookapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1073679345675-b1gnrvnk7oovdbbmlqfk4m9kup796mvu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.raymon.henk.kookbookapp",
+            "certificate_hash": "279d4bf538023f78007378238a7d4a9155661c55"
+          }
+        },
+        {
+          "client_id": "1073679345675-5mptgcgh6qk7ongg9k1cou7bs4sqf3qm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1073679345675-5mptgcgh6qk7ongg9k1cou7bs4sqf3qm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9rQmrqebUC2NMWpxJfvpH6wYaNC351LQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1073679345675-5mptgcgh6qk7ongg9k1cou7bs4sqf3qm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
