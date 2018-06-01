@@ -79,7 +79,7 @@ public class SideNavigationActivity extends AppCompatActivity
         TextView title = findViewById(R.id.nav_title);
         title.setText(user.getDisplayName());
 
-        TextView subtitle = findViewById(R.id.nav_subtitle);
+        TextView subtitle = findViewById(R.id.nav_sub_title);
         subtitle.setText(user.getEmail());
 
         if (user.getPhotoUrl() != null) {
