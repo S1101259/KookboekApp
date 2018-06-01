@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
         Matcher m = p.matcher(emailInput.getText());
 
-        if(m.matches()){
+        if(!m.matches()){
             emailInput.setError("Ongeldige e-mail gevonden");
             return;
         }
