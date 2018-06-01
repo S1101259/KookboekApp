@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1073679345675-v4kfht8o4415mresokh439ti6bcrs3q4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "nl.raymon.henk.kookbookapp",
+            "certificate_hash": "f59623d2aafa6bb85513a84d56f97bdc3051148a"
+          }
+        },
+        {
           "client_id": "1073679345675-b1gnrvnk7oovdbbmlqfk4m9kup796mvu.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
