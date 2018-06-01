@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,10 +27,11 @@ import com.squareup.picasso.Picasso;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 
 public class SideNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, OnlineRecipesFragment.OnListFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseInstance;
     private FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,7 @@ public class SideNavigationActivity extends AppCompatActivity
             }
         });
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -59,7 +62,12 @@ public class SideNavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
+        navigationView.getMenu().getItem(0).setChecked(true);
+
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,7 +93,6 @@ public class SideNavigationActivity extends AppCompatActivity
         if (user.getPhotoUrl() != null) {
             Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
         }
-
 
 
         return true;
@@ -115,22 +122,25 @@ public class SideNavigationActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
+        } else if (id == R.id.my_recipes) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance(1)).commit();
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.online_recipes) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipesFragment.newInstance(1)).commit();
+        } else if (id == R.id.new_recipe) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, NewRecipeFragment.newInstance("", "")).commit();
+        } else if (id == R.id.statistics) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, StatisticsFragment.newInstance("", "")).commit();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.logout) {
             firebaseInstance.signOut();
             startActivity(new Intent(this, StartActivity.class));
+        } else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
         }
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -144,6 +154,9 @@ public class SideNavigationActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+    }
 
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
 }

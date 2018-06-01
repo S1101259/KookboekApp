@@ -5,33 +5,33 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/home"
+            android:icon="@drawable/ic_baseline_home_24px"
+            android:title="@string/home_screen_title" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Mijn Recepten" />
+            android:id="@+id/my_recipes"
+            android:icon="@drawable/ic_baseline_list_24px"
+            android:title="@string/my_recipes_screen_title" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Online Recepted" />
+            android:id="@+id/online_recipes"
+            android:icon="@drawable/ic_baseline_cloud_24px"
+            android:title="@string/online_recipes_screen_title" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Nieuw Recept" />
+            android:id="@+id/new_recipe"
+            android:icon="@drawable/ic_baseline_add_24px"
+            android:title="@string/new_recipe_screen_title" />
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Statistieken" />
+            android:id="@+id/statistics"
+            android:icon="@drawable/ic_baseline_show_chart_24px"
+            android:title="@string/statistics_screen_title" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Account Acties">
         <menu>
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Uitloggen" />
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_baseline_exit_to_app_24px"
+                android:title="@string/logout_screen_title" />
         </menu>
     </item>
 
