@@ -59,6 +59,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     @Override
+    protected void onStart(){
+        super.onStart();
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            goToHome();
+        }
+    }
+
+    @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Geen netwerk gevonden", Toast.LENGTH_SHORT).show();
     }
