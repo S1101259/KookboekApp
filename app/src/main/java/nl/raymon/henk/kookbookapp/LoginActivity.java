@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -51,12 +52,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
 
 
-        findViewById(R.id.googleSignin).setOnClickListener(new OnClickListener() {
+        findViewById(R.id.sign_in_google).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn();
+                signInWithGoogle();
             }
         });
+
+        findViewById(R.id.login_signin).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signInWithEmail();
+            }
+        });
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
@@ -76,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Toast.makeText(this, "Geen netwerk gevonden", Toast.LENGTH_SHORT).show();
     }
 
-    private void signIn() {
+    private void signInWithGoogle() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -105,6 +114,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             goToHome();
+                        }
+                    }
+                });
+    }
+
+    public void signInWithEmail(){
+        String email = ((EditText)findViewById(R.id.login_email)).getText().toString();
+        String password = ((EditText)findViewById(R.id.login_password)).getText().toString();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            goToHome();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            View view = findViewById(R.id.LoginActivity);
+                            Snackbar.make(view, "Aanmaken account mislukt", Snackbar.LENGTH_SHORT);
                         }
                     }
                 });

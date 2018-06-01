@@ -38,6 +38,13 @@ public class RegisterActivity extends AppCompatActivity {
                 onSubmit();
             }
         });
+
+        findViewById(R.id.register_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterActivity.super.onBackPressed();
+            }
+        });
     }
 
     @Override
