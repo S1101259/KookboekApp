@@ -17,9 +17,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private Pattern p;
+    private Matcher m;
     private static final String TAG = "register";
 
     @Override
@@ -56,11 +61,31 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void onSubmit(){
-        String email = ((EditText)findViewById(R.id.register_email)).getText().toString();
-        String password = ((EditText)findViewById(R.id.register_password)).getText().toString();
-        String name = ((EditText)findViewById(R.id.register_displayname)).getText().toString();
+        EditText email = findViewById(R.id.register_email);
+        p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
+        m = p.matcher(email.getText().toString());
 
-        createAccount(email, password, name);
+        if(!m.matches()){
+            email.setError("Ongeldige e-mail gevonden");
+            return;
+        }
+
+        EditText password = findViewById(R.id.register_password);
+
+        p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        m = p.matcher(password.getText().toString());
+        if(!m.matches()){
+            password.setError("Ongeldige wachtwoord");
+            return;
+        }
+
+        EditText name = findViewById(R.id.register_displayname);
+        if (name.getText().toString().isEmpty()){
+            name.setError("Veld is verplicht");
+            return;
+        }
+
+        createAccount(email.getText().toString(), password.getText().toString(), name.getText().toString());
     }
 
     private void createAccount(String email, String password, final String name){
@@ -91,7 +116,7 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         } else {
                             View view = findViewById(R.id.registerLayout);
-                            Snackbar.make(view, "Aanmaken account mislukt", Snackbar.LENGTH_SHORT);
+                            Snackbar.make(view, "Aanmaken account mislukt", Snackbar.LENGTH_SHORT).show();
                         }
                     }
                 });

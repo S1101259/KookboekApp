@@ -26,6 +26,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -56,6 +59,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onClick(View view) {
                 signInWithGoogle();
+            }
+        });
+
+        findViewById(R.id.login_back).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LoginActivity.super.onBackPressed();
             }
         });
 
@@ -120,10 +130,22 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void signInWithEmail(){
-        String email = ((EditText)findViewById(R.id.login_email)).getText().toString();
-        String password = ((EditText)findViewById(R.id.login_password)).getText().toString();
+        EditText emailInput = findViewById(R.id.login_email);
+        EditText passwordInput = findViewById(R.id.login_password);
 
-        mAuth.signInWithEmailAndPassword(email, password)
+        Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
+        Matcher m = p.matcher(emailInput.getText());
+
+        if(m.matches()){
+            emailInput.setError("Ongeldige e-mail gevonden");
+            return;
+        }
+        if(passwordInput.getText().toString().isEmpty()){
+            passwordInput.setError("Deze veld is vereist!");
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -137,7 +159,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
                             View view = findViewById(R.id.LoginActivity);
-                            Snackbar.make(view, "Aanmaken account mislukt", Snackbar.LENGTH_SHORT);
+
+                            final Snackbar snackbar = Snackbar.make(view, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
+                            snackbar.setAction("Dismiss", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    snackbar.dismiss();
+                                }
+                            });
+                            snackbar.show();
                         }
                     }
                 });
