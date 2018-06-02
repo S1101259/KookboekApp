@@ -129,7 +129,7 @@ public class OnlineRecipeListFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>(){};
                 onlineRecipes = dataSnapshot.getValue(t);
-                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes);
+                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
                 recyclerView.setAdapter(onlineRecipeListAdapter);
             }
 
