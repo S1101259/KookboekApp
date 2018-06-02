@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 
 /**
@@ -59,6 +60,8 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         ((SideNavigationActivity) getActivity()).setActionBarTitle("Home");
+
+
     }
 
     @Override
@@ -105,5 +108,12 @@ public class HomeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void goToMyRecipes(View v){
+    }
+
+    public void goToOnlineRecipes(View v){
+
     }
 }

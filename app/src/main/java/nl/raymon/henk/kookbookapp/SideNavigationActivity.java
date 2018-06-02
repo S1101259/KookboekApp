@@ -159,4 +159,16 @@ public class SideNavigationActivity extends AppCompatActivity
     public void setActionBarTitle(String title){
         getSupportActionBar().setTitle(title);
     }
+
+    public void goToMyRecipes(View v){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance(1)).commit();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(1).setChecked(true);
+    }
+
+    public void goToOnlineRecipes(View v){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipesFragment.newInstance(1)).commit();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(2).setChecked(true);
+    }
 }

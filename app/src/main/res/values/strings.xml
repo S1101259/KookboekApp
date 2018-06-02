@@ -4,10 +4,13 @@
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="prompt_display_name">Name</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="prompt_password">Wachtwoord</string>
+    <string name="prompt_display_name">Naam</string>
+    <string name="prompt_type">Type</string>
+    <string name="prompt_share_online">Deel online</string>
+    <string name="prompt_preparation_time">Bereidingstijd (In minuten)</string>
+    <string name="action_sign_in">Log in of registreer</string>
+    <string name="action_sign_in_short">Log in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -23,10 +26,10 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="sign_in">Sign in</string>
-    <string name="back">Back</string>
+    <string name="action_settings">Instellingen</string>
+    <string name="sign_up">Registreer</string>
+    <string name="sign_in">Log in</string>
+    <string name="back">Terug</string>
 
     <string name="home_screen_title">Home</string>
     <string name="my_recipes_screen_title">Mijn Recepten</string>
@@ -37,4 +40,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="recipe_types">
+        <item>Hoofdgerecht</item>
+        <item>Saus</item>
+        <item>Voorgerecht</item>
+        <item>Nagerecht</item>
+        <item>Koek</item>
+        <item>Taart</item>
+    </string-array>
 </resources>
