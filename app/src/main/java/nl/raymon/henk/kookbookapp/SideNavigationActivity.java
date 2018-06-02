@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 
 public class SideNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseInstance;
     private FirebaseUser user;
@@ -123,7 +123,7 @@ public class SideNavigationActivity extends AppCompatActivity
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
         } else if (id == R.id.my_recipes) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance(1)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance()).commit();
         } else if (id == R.id.online_recipes) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
         } else if (id == R.id.new_recipe) {
@@ -146,11 +146,6 @@ public class SideNavigationActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
-    }
-
-    @Override
     public void onFragmentInteraction(Uri uri) {
     }
 
@@ -159,7 +154,7 @@ public class SideNavigationActivity extends AppCompatActivity
     }
 
     public void goToMyRecipes(View v){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance(1)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(1).setChecked(true);
     }
