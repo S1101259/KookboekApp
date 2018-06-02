@@ -165,7 +165,7 @@ public class SideNavigationActivity extends AppCompatActivity
     }
 
     public void goToOnlineRecipes(View v){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipesFragment.newInstance(1)).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(2).setChecked(true);
     }
