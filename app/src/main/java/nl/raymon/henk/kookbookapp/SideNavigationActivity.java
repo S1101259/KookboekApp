@@ -6,8 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 
 public class SideNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, OnlineRecipesFragment.OnListFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseInstance;
     private FirebaseUser user;
@@ -127,7 +125,7 @@ public class SideNavigationActivity extends AppCompatActivity
         } else if (id == R.id.my_recipes) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance(1)).commit();
         } else if (id == R.id.online_recipes) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipesFragment.newInstance(1)).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
         } else if (id == R.id.new_recipe) {
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, NewRecipeFragment.newInstance("", "")).commit();
         } else if (id == R.id.statistics) {

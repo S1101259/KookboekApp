@@ -38,6 +38,10 @@
     <string name="statistics_screen_title">Statistieken</string>
     <string name="logout_screen_title">Uitloggen</string>
 
+    <string name="prompt_recipe_name">Receptnaam</string>
+    <string name="prompt_recipe_type">Type gerecht</string>
+    <string name="content_description_recipe">Recipe Image</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
