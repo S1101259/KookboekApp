@@ -142,11 +142,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Matcher m = p.matcher(emailInput.getText());
 
         if(!m.matches()){
-            emailInput.setError("Ongeldige e-mail gevonden");
+            emailInput.setError("Ongeldig e-mailadres");
             return;
         }
         if(passwordInput.getText().toString().isEmpty()){
-            passwordInput.setError("Deze veld is vereist!");
+            passwordInput.setError("Dit veld is vereist!");
             return;
         }
 
@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
 
                             final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction("Dismiss", new View.OnClickListener() {
+                            snackbar.setAction("Sluiten", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     snackbar.dismiss();

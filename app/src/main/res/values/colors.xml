@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorAppRed">#c31100</color>
+    <color name="colorAppDarkRed">#940000</color>
     <color name="colorPrimaryDark">#af000000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="Dim_Black">#64000000</color>
 </resources>

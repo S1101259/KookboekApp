@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -53,42 +54,42 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             goToHome();
         }
     }
 
-    public void onSubmit(){
+    public void onSubmit() {
         EditText email = findViewById(R.id.register_email);
         p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
         m = p.matcher(email.getText().toString());
 
-        if(!m.matches()){
-            email.setError("Ongeldige e-mail gevonden");
+        if (!m.matches()) {
+            email.setError("Ongeldig e-mailadres");
             return;
         }
 
         EditText password = findViewById(R.id.register_password);
 
-        p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        p = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!?*<>€_~-])(?=\\S+$).{8,}$");
         m = p.matcher(password.getText().toString());
-        if(!m.matches()){
-            password.setError("Ongeldige wachtwoord");
+        if (!m.matches()) {
+            password.setError("Uw wachtwoord dient minstens 8 karakters te bevatten, waarvan minstens 1 hoofdletter, 1 kleine letter, 1 cijfer, en 1 speciaal teken (@#$%^&+=!?*<>€_~-)");
             return;
         }
 
         EditText name = findViewById(R.id.register_displayname);
-        if (name.getText().toString().isEmpty()){
-            name.setError("Veld is verplicht");
+        if (name.getText().toString().isEmpty()) {
+            name.setError("Dit veld is vereist");
             return;
         }
 
         createAccount(email.getText().toString(), password.getText().toString(), name.getText().toString());
     }
 
-    private void createAccount(String email, String password, final String name){
+    private void createAccount(String email, String password, final String name) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -116,14 +117,32 @@ public class RegisterActivity extends AppCompatActivity {
                             }
                         } else {
                             View view = findViewById(R.id.registerLayout);
-                            Snackbar.make(view, "Aanmaken account mislukt", Snackbar.LENGTH_SHORT).show();
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                final Snackbar snackbar = Snackbar.make(view, "Dit emailadres is al in gebruik", Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setAction("Sluiten", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        snackbar.dismiss();
+                                    }
+                                });
+                                snackbar.show();
+                            } else {
+                                final Snackbar snackbar = Snackbar.make(view, "Account aanmaken mislukt", Snackbar.LENGTH_INDEFINITE);
+                                snackbar.setAction("Sluiten", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        snackbar.dismiss();
+                                    }
+                                });
+                                snackbar.show();
+                            }
                         }
                     }
                 });
     }
 
 
-    public void goToHome(){
+    public void goToHome() {
         startActivity(new Intent(this, SideNavigationActivity.class));
     }
 }

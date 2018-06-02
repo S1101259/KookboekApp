@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <ImageButton
+        android:id="@+id/myRecipesImageButton"
+        android:layout_width="375dp"
+        android:layout_height="222dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="17dp"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/my_recipes_screen_title"
+        android:cropToPadding="false"
+        android:elevation="25dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/my_recipes_button"
+        android:tint="@color/Dim_Black" />
+
+    <TextView
+        android:id="@+id/myRecipesTextView"
+        android:layout_width="229dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="189dp"
+        android:elevation="25dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/my_recipes_screen_title"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+    <ImageButton
+        android:id="@+id/onlineRecipesImageButton"
+        android:layout_width="375dp"
+        android:layout_height="222dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="99dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:adjustViewBounds="false"
+        android:contentDescription="@string/online_recipes_screen_title"
+        android:cropToPadding="false"
+        android:elevation="25dp"
+        android:paddingBottom="0dp"
+        android:paddingEnd="0dp"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/online_recipes_button"
+        android:tint="@color/Dim_Black" />
+
+    <TextView
+        android:id="@+id/onlineRecipesTextView"
+        android:layout_width="229dp"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/myRecipesTextView"
+        android:layout_marginBottom="121dp"
+        android:elevation="25dp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/online_recipes_screen_title"
+        android:textColor="@android:color/white"
+        android:textSize="30sp" />
+
+</RelativeLayout>

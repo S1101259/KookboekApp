@@ -21,7 +21,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class MyRecipesFragment extends Fragment {
+public class OnlineRecipesFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -33,13 +33,13 @@ public class MyRecipesFragment extends Fragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MyRecipesFragment() {
+    public OnlineRecipesFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static MyRecipesFragment newInstance(int columnCount) {
-        MyRecipesFragment fragment = new MyRecipesFragment();
+    public static OnlineRecipesFragment newInstance(int columnCount) {
+        OnlineRecipesFragment fragment = new OnlineRecipesFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -54,13 +54,13 @@ public class MyRecipesFragment extends Fragment {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
 
-        ((SideNavigationActivity) getActivity()).setActionBarTitle("Mijn Recepten");
+        ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_online_recipe_list, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -71,7 +71,7 @@ public class MyRecipesFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyRecipeRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new OnlineRecipeRecyclerViewAdapter(DummyContent.ITEMS, mListener));
         }
         return view;
     }
