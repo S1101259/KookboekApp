@@ -1,9 +1,10 @@
 package nl.raymon.henk.kookbookapp.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Recipe {
+public class Recipe implements Serializable {
     private List<CookingStep> cooking;
     private int cooking_time;
     private List<String> ingredients;
