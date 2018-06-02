@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -131,6 +133,11 @@ public class OnlineRecipeListFragment extends Fragment {
                 onlineRecipes = dataSnapshot.getValue(t);
                 onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
                 recyclerView.setAdapter(onlineRecipeListAdapter);
+
+                LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.layout_animation_fall_down);
+                recyclerView.setLayoutAnimation(layoutAnimationController);
+                recyclerView.getAdapter().notifyDataSetChanged();
+                recyclerView.scheduleLayoutAnimation();
             }
 
             @Override
