@@ -3,13 +3,31 @@ package nl.raymon.henk.kookbookapp;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import nl.raymon.henk.kookbookapp.models.CookingStep;
+import nl.raymon.henk.kookbookapp.models.PreparationStep;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
 /**
@@ -21,16 +39,11 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class OnlineRecipeListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//    private static final String ARG_PARAM1 = "param1";
-//    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-//    private String mParam1;
-//    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
+    ArrayList<Recipe> onlineRecipes;
+    OnlineRecipeListAdapter onlineRecipeListAdapter;
 
     public OnlineRecipeListFragment() {
         // Required empty public constructor
@@ -44,35 +57,25 @@ public class OnlineRecipeListFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static OnlineRecipeListFragment newInstance() {
-        OnlineRecipeListFragment fragment = new OnlineRecipeListFragment();
-        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        return new OnlineRecipeListFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
         ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_online_recipe_list, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.onlineRecipesRecyclerView);
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new String[]{"Aardappel gepoft met tonijnsaus", "Henk", "Pleasework"},
-                ((SideNavigationActivity)getActivity()));
-        recyclerView.setAdapter(onlineRecipeListAdapter);
+        recyclerView = (RecyclerView) view.findViewById(R.id.onlineRecipesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        getOnlineRecipes();
 
         return view;
     }
@@ -114,5 +117,33 @@ public class OnlineRecipeListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void getOnlineRecipes() {
+        onlineRecipes = new ArrayList<Recipe>();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("recipes");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>(){};
+                onlineRecipes = dataSnapshot.getValue(t);
+                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
+                recyclerView.setAdapter(onlineRecipeListAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("Firebase Err", "onCancelled: " + databaseError.toException());
+            }
+        });
+
+
+        List<CookingStep> cookingSteps = Arrays.asList(new CookingStep("Vullen Pan", "Vul de pan met water om bla bla allemaal dingen"), new CookingStep("Verhitten", "Verhit de pan tot 10000 graden Celsius"));
+        List<PreparationStep> preparationSteps = Arrays.asList(new PreparationStep("dwadwa", "description"), new PreparationStep("2", "description"));
+        List<String> ingredients = Arrays.asList("water", "iets anders");
+        List<Recipe> recipeList = Arrays.asList(new Recipe(cookingSteps, 15, ingredients, "ReceptNaam", preparationSteps, "", "Hoofdgerecht"), new Recipe(cookingSteps, 15, ingredients, "Ander Recept van Raymon", preparationSteps, "", "Nagerecht"));
+
     }
 }

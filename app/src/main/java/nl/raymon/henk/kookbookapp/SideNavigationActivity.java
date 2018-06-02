@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class SideNavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
@@ -165,7 +166,7 @@ public class SideNavigationActivity extends AppCompatActivity
         navigationView.getMenu().getItem(2).setChecked(true);
     }
 
-    public void goToRecipe(String object){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, RecipeFragment.newInstance(object)).commit();
+    public void goToRecipe(Recipe recipe){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, RecipeFragment.newInstance(recipe)).commit();
     }
 }

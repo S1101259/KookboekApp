@@ -8,11 +8,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
-    private String[] myDataset;
-    private SideNavigationActivity sideNavigationActivity;
+import java.util.ArrayList;
+import java.util.List;
 
-    public OnlineRecipeListAdapter(String[] myDataset, SideNavigationActivity sideNavigationActivity) {
+import nl.raymon.henk.kookbookapp.models.Recipe;
+
+public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
+//    private String[] myDataset;
+    private SideNavigationActivity sideNavigationActivity;
+private ArrayList<Recipe> myDataset;
+    public OnlineRecipeListAdapter(ArrayList<Recipe> myDataset, SideNavigationActivity sideNavigationActivity) {
         this.myDataset = myDataset;
         this.sideNavigationActivity = sideNavigationActivity;
     }
@@ -25,26 +30,29 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
 
     @Override
     public void onBindViewHolder(OnlineRecipeListViewHolder onlineRecipeListViewHolder, final int position) {
-        onlineRecipeListViewHolder.mtTitleView.setText(myDataset[position]);
+        onlineRecipeListViewHolder.recipeName.setText(myDataset.get(position).getName());
+        onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sideNavigationActivity.goToRecipe(myDataset[position]);
+                sideNavigationActivity.goToRecipe(myDataset.get(position));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return myDataset.length;
+        return myDataset.size();
     }
 
-    public static class OnlineRecipeListViewHolder extends RecyclerView.ViewHolder{
-        public TextView mtTitleView;
+    public static class OnlineRecipeListViewHolder extends RecyclerView.ViewHolder {
+        public TextView recipeName;
+        public TextView recipeType;
 
         public OnlineRecipeListViewHolder(LinearLayout itemView) {
             super(itemView);
-            mtTitleView = itemView.findViewById(R.id.listItemTitle);
+            recipeName = itemView.findViewById(R.id.listItemTitle);
+            recipeType = itemView.findViewById(R.id.listItemType);
         }
 
 

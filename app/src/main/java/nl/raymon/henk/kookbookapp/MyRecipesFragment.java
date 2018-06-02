@@ -14,7 +14,9 @@ import android.view.ViewGroup;
 
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,8 +28,8 @@ public class MyRecipesFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static OnlineRecipeListFragment newInstance() {
-        OnlineRecipeListFragment fragment = new OnlineRecipeListFragment();
+    public static MyRecipesFragment newInstance() {
+        MyRecipesFragment fragment = new MyRecipesFragment();
         Bundle args = new Bundle();
 
         fragment.setArguments(args);
@@ -46,7 +48,8 @@ public class MyRecipesFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new String[]{"Aardappel gepoft met tonijnsaus", "Henk", "Pleasework"},
+        //todo give this adapter an actual list intead of an empty one
+        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new ArrayList<Recipe>(),
                 ((SideNavigationActivity)getActivity()));
         recyclerView.setAdapter(onlineRecipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

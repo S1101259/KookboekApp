@@ -8,20 +8,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import nl.raymon.henk.kookbookapp.models.Recipe;
+
 
 public class RecipeFragment extends Fragment{
     private OnFragmentInteractionListener mListener;
-    private String object;
+    private String recipeName;
     private static final String ARG_PARAM1 = "recipe";
 
     public RecipeFragment() {
         // Required empty public constructor
     }
 
-    public static RecipeFragment newInstance(String object) {
+    public static RecipeFragment newInstance(Recipe recipe) {
         RecipeFragment fragment = new RecipeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, object);
+        args.putString(ARG_PARAM1, recipe.getName());
         fragment.setArguments(args);
         return fragment;
     }
@@ -30,8 +32,8 @@ public class RecipeFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            object = getArguments().getString(ARG_PARAM1);
-            ((SideNavigationActivity) getActivity()).setActionBarTitle(object);
+            recipeName = getArguments().getString(ARG_PARAM1);
+            ((SideNavigationActivity) getActivity()).setActionBarTitle(recipeName);
         }
     }
 
