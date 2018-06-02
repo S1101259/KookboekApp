@@ -69,7 +69,8 @@ public class OnlineRecipeListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_online_recipe_list, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.onlineRecipesRecyclerView);
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new String[]{"Aardappel gepoft met tonijnsaus", "Henk", "Pleasework"});
+        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new String[]{"Aardappel gepoft met tonijnsaus", "Henk", "Pleasework"},
+                ((SideNavigationActivity)getActivity()));
         recyclerView.setAdapter(onlineRecipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

@@ -25,7 +25,7 @@ import com.squareup.picasso.Picasso;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 
 public class SideNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnListFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseInstance;
     private FirebaseUser user;
@@ -168,5 +168,9 @@ public class SideNavigationActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    public void goToRecipe(String object){
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, RecipeFragment.newInstance(object)).commit();
     }
 }
