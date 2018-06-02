@@ -1,13 +1,14 @@
 package nl.raymon.henk.kookbookapp.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Recipe {
-    private ArrayList<CookingStep> cooking;
+    private List<CookingStep> cooking;
     private int cooking_time;
-    private ArrayList<String> ingredients;
+    private List<String> ingredients;
     private String name;
-    private ArrayList<PreparationStep> preparation;
+    private List<PreparationStep> preparation;
     private String serving;
     private String type;
 
@@ -15,7 +16,7 @@ public class Recipe {
 
     }
 
-    public Recipe(ArrayList<CookingStep> cooking, int cooking_time, ArrayList<String> ingredients, String name, ArrayList<PreparationStep> preparation, String serving, String type) {
+    public Recipe(List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type) {
         this.cooking = cooking;
         this.cooking_time = cooking_time;
         this.ingredients = ingredients;
@@ -25,7 +26,7 @@ public class Recipe {
         this.type = type;
     }
 
-    public ArrayList<CookingStep> getCooking() {
+    public List<CookingStep> getCooking() {
         return cooking;
     }
 
@@ -41,11 +42,11 @@ public class Recipe {
         this.cooking_time = cooking_time;
     }
 
-    public ArrayList<String> getIngredients() {
+    public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(ArrayList<String> ingredients) {
+    public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -57,7 +58,7 @@ public class Recipe {
         this.name = name;
     }
 
-    public ArrayList<PreparationStep> getPreparation() {
+    public List<PreparationStep> getPreparation() {
         return preparation;
     }
 
