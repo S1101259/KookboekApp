@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "SignIn";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
+    private View loginView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (actionBar != null) {
             actionBar.hide();
         }
+
+        loginView = findViewById(R.id.LoginActivity);
     }
 
     @Override
@@ -107,7 +110,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            firebaseAuthWithGoogle(result.getSignInAccount());
+            if(result.isSuccess() && result.getSignInAccount() != null){
+                firebaseAuthWithGoogle(result.getSignInAccount());
+            }
         }
     }
 
@@ -158,9 +163,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            View view = findViewById(R.id.LoginActivity);
 
-                            final Snackbar snackbar = Snackbar.make(view, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
+                            final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Dismiss", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
