@@ -7,13 +7,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.Serializable;
 
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
 public class RecipeFragment extends Fragment{
     private OnFragmentInteractionListener mListener;
-    private String recipeName;
+    private Recipe recipe;
     private static final String ARG_PARAM1 = "recipe";
 
     public RecipeFragment() {
@@ -23,7 +28,7 @@ public class RecipeFragment extends Fragment{
     public static RecipeFragment newInstance(Recipe recipe) {
         RecipeFragment fragment = new RecipeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, recipe.getName());
+        args.putSerializable(ARG_PARAM1, recipe);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,8 +37,8 @@ public class RecipeFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            recipeName = getArguments().getString(ARG_PARAM1);
-            ((SideNavigationActivity) getActivity()).setActionBarTitle(recipeName);
+            recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
+            ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         }
     }
 
@@ -41,7 +46,10 @@ public class RecipeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe, container, false);
+        View v = inflater.inflate(R.layout.fragment_recipe, container, false);
+        ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
+
+        return v;
     }
 
     @Override
@@ -49,6 +57,7 @@ public class RecipeFragment extends Fragment{
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
+
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
