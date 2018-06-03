@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -51,6 +53,10 @@ public class RecipeFragment extends Fragment{
         ((TextView)v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
 
         ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing());
+
+        ExpandableListView expListView = v.findViewById(R.id.cookingSteps);
+        ExpandableListAdapter listAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
+        expListView.setAdapter(listAdapter);
 
         return v;
     }

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
@@ -40,6 +41,7 @@ public class MyRecipesFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((SideNavigationActivity) getActivity()).setActionBarTitle("Mijn Recepten");
+
     }
 
     @Override
