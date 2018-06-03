@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -21,10 +22,11 @@ import java.io.Serializable;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
-public class RecipeFragment extends Fragment{
+public class RecipeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private Recipe recipe;
     private static final String ARG_PARAM1 = "recipe";
+    private ScrollView scrollView;
 
     public RecipeFragment() {
         // Required empty public constructor
@@ -47,15 +49,15 @@ public class RecipeFragment extends Fragment{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
-        ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
-        ((TextView)v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
+        scrollView = v.findViewById(R.id.recipe_scroll_view);
+        ((TextView) v.findViewById(R.id.recipe_type)).setText(recipe.getType());
+        ((TextView) v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
 
-        ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing().isEmpty()? "Geen Serveertip bekend.": recipe.getServing());
+        ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing().isEmpty() ? "Geen Serveertip bekend." : recipe.getServing());
 
         ExpandableListView cookingSteps = v.findViewById(R.id.cookingSteps);
         ExpandableListAdapter cookingStepsAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
@@ -63,9 +65,7 @@ public class RecipeFragment extends Fragment{
         cookingSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                setListViewHeight(parent, groupPosition);
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 return false;
             }
         });
@@ -76,9 +76,7 @@ public class RecipeFragment extends Fragment{
         ingredients.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
 
             @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                setListViewHeight(parent, groupPosition);
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
                 return false;
             }
         });
@@ -91,45 +89,10 @@ public class RecipeFragment extends Fragment{
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
-                setListViewHeight(parent, groupPosition);
                 return false;
             }
         });
-
-
         return v;
-    }
-
-    private void setListViewHeight(ExpandableListView listView,
-                                   int group) {
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-
-        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
-        int totalHeight = 0;
-        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
-                View.MeasureSpec.EXACTLY);
-        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-            View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-
-            totalHeight += groupItem.getMeasuredHeight();
-
-            if (((listView.isGroupExpanded(i)) && (i != group))
-                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
-                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
-                    View listItem = listAdapter.getChildView(i, j, false, null,
-                            listView);
-                    listItem.measure(desiredWidth, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                    totalHeight += (listItem.getMeasuredHeight() + (metrics.density));
-                }
-            }
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        totalHeight += ((listView.getDividerHeight()) * listAdapter.getGroupCount());
-        params.height = totalHeight;
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-
     }
 
     @Override
@@ -151,5 +114,5 @@ public class RecipeFragment extends Fragment{
     }
 
     public interface OnFragmentInteractionListener {
-        }
+    }
 }
