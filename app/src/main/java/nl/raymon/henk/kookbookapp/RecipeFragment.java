@@ -38,7 +38,6 @@ public class RecipeFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
-            ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         }
     }
 
@@ -46,6 +45,7 @@ public class RecipeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
 

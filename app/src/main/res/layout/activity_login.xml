@@ -2,30 +2,26 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LoginActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity"
-    android:id="@+id/LoginActivity">
+    tools:context=".LoginActivity">
 
     <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:contentDescription="@string/start_background_image"
             android:scaleType="centerCrop"
             android:src="@drawable/background" />
 
@@ -47,6 +43,7 @@
                 android:layout_centerInParent="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="20dp"
+                android:contentDescription="@string/start_logo_text"
                 app:srcCompat="@drawable/cookbooktext" />
 
             <Button
@@ -93,8 +90,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="198dp"
-                android:layout_marginHorizontal="20dp"
-               />
+                android:layout_marginHorizontal="20dp" />
 
             <EditText
                 android:id="@+id/login_email"
@@ -124,6 +120,15 @@
                 android:inputType="textPassword"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white" />
+
+            <ProgressBar
+                android:id="@+id/loginLoading"
+                android:layout_width="201dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true"
+                android:indeterminate="true"
+                android:visibility="gone" />
+
         </RelativeLayout>
 
     </RelativeLayout>
