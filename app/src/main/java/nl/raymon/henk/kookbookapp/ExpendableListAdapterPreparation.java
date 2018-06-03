@@ -9,14 +9,16 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class ExpandableListAdapterIngredients extends BaseExpandableListAdapter {
+import nl.raymon.henk.kookbookapp.models.PreparationStep;
+
+public class ExpendableListAdapterPreparation extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<String> ingredients;
+    private List<PreparationStep> preparationSteps;
 
-    ExpandableListAdapterIngredients(Context context, List<String> ingredients){
+    ExpendableListAdapterPreparation(Context context, List<PreparationStep> preparationSteps){
         this.context = context;
-        this.ingredients = ingredients;
+        this.preparationSteps = preparationSteps;
     }
 
     @Override
@@ -26,17 +28,17 @@ public class ExpandableListAdapterIngredients extends BaseExpandableListAdapter 
 
     @Override
     public int getChildrenCount(int i) {
-        return ingredients!= null ? ingredients.size(): 0;
+        return preparationSteps != null ? preparationSteps.size() : 0;
     }
 
     @Override
     public Object getGroup(int i) {
-        return "Ingrediënten:";
+        return "Voorbereiding";
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return this.ingredients.get(i1);
+        return this.preparationSteps.get(i1);
     }
 
     @Override
@@ -68,7 +70,7 @@ public class ExpandableListAdapterIngredients extends BaseExpandableListAdapter 
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        final String ingredient = ingredients.get(i1);
+        final PreparationStep preparationStep = preparationSteps.get(i1);
 
 
         if (view == null){
@@ -76,8 +78,8 @@ public class ExpandableListAdapterIngredients extends BaseExpandableListAdapter 
             view =  inflater.inflate(R.layout.single_recipe_list_group_item, null);
         }
 
-        ((TextView)view.findViewById(R.id.recipe_group_item_title)).setVisibility(View.GONE);
-        ((TextView)view.findViewById(R.id.recipe_group_item_desc)).setText(ingredient);
+        ((TextView)view.findViewById(R.id.recipe_group_item_title)).setText(preparationStep.getPart());
+        ((TextView)view.findViewById(R.id.recipe_group_item_desc)).setText(preparationStep.getDescription());
 
         return view;
     }

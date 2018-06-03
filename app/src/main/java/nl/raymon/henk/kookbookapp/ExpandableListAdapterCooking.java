@@ -29,7 +29,7 @@ public class ExpandableListAdapterCooking extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int i) {
-        return this.cookingSteps.size();
+        return cookingSteps != null ? cookingSteps.size() : 0;
     }
 
     @Override

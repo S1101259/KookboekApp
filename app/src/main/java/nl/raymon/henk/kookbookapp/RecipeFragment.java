@@ -52,15 +52,19 @@ public class RecipeFragment extends Fragment{
         ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
         ((TextView)v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
 
-        ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing());
+        ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing().isEmpty()? "Geen Serveertip bekend.": recipe.getServing());
 
-        ExpandableListView expListView = v.findViewById(R.id.cookingSteps);
-        ExpandableListAdapter listAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
-        expListView.setAdapter(listAdapter);
+        ExpandableListView cookingSteps = v.findViewById(R.id.cookingSteps);
+        ExpandableListAdapter cookingStepsAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
+        cookingSteps.setAdapter(cookingStepsAdapter);
 
-        ExpandableListView expListView2 = v.findViewById(R.id.ingredients);
-        ExpandableListAdapter listAdapter2 = new ExpandableListAdapterIngredients(this.getContext(), recipe.getIngredients());
-        expListView2.setAdapter(listAdapter2);
+        ExpandableListView ingredients = v.findViewById(R.id.ingredients);
+        ExpandableListAdapter ingredientsAdapter = new ExpandableListAdapterIngredients(this.getContext(), recipe.getIngredients());
+        ingredients.setAdapter(ingredientsAdapter);
+
+        ExpandableListView preparationSteps = v.findViewById(R.id.preparationSteps);
+        ExpandableListAdapter preparationStepsAdapter = new ExpendableListAdapterPreparation(this.getContext(), recipe.getPreparation());
+        preparationSteps.setAdapter(preparationStepsAdapter);
 
         return v;
     }
