@@ -48,6 +48,9 @@ public class RecipeFragment extends Fragment{
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
+        ((TextView)v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
+
+        ((TextView) v.findViewById(R.id.recipe_serving_tip)).setText(recipe.getServing());
 
         return v;
     }

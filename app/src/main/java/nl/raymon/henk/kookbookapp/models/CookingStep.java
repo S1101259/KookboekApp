@@ -1,6 +1,8 @@
 package nl.raymon.henk.kookbookapp.models;
 
-public class CookingStep {
+import java.io.Serializable;
+
+public class CookingStep implements Serializable {
     private String step;
     private String description;
 
