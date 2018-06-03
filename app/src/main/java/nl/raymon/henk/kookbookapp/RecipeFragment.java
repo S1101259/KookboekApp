@@ -58,6 +58,10 @@ public class RecipeFragment extends Fragment{
         ExpandableListAdapter listAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
         expListView.setAdapter(listAdapter);
 
+        ExpandableListView expListView2 = v.findViewById(R.id.ingredients);
+        ExpandableListAdapter listAdapter2 = new ExpandableListAdapterIngredients(this.getContext(), recipe.getIngredients());
+        expListView2.setAdapter(listAdapter2);
+
         return v;
     }
 
