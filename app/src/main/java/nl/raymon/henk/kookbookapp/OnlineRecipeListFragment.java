@@ -1,17 +1,22 @@
 package nl.raymon.henk.kookbookapp;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +47,7 @@ public class OnlineRecipeListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
+    private ProgressBar loadingBar;
     ArrayList<Recipe> onlineRecipes;
     OnlineRecipeListAdapter onlineRecipeListAdapter;
 
@@ -63,7 +69,6 @@ public class OnlineRecipeListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
     }
 
     @Override
@@ -72,9 +77,14 @@ public class OnlineRecipeListFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
+        ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
+        ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.online_recipes);
+
         View view = inflater.inflate(R.layout.fragment_online_recipe_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.onlineRecipesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        loadingBar = view.findViewById(R.id.loadingBar);
+        loadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
         getOnlineRecipes();
 
         return view;
@@ -131,6 +141,12 @@ public class OnlineRecipeListFragment extends Fragment {
                 onlineRecipes = dataSnapshot.getValue(t);
                 onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
                 recyclerView.setAdapter(onlineRecipeListAdapter);
+                loadingBar.setVisibility(View.GONE);
+
+                LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.layout_animation_fall_down);
+                recyclerView.setLayoutAnimation(layoutAnimationController);
+                recyclerView.getAdapter().notifyDataSetChanged();
+                recyclerView.scheduleLayoutAnimation();
             }
 
             @Override

@@ -58,14 +58,15 @@ public class NewRecipeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        ((SideNavigationActivity) getActivity()).setActionBarTitle("Nieuw Recept");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((SideNavigationActivity) getActivity()).setActionBarTitle("Nieuw Recept");
+        ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.new_recipe);
+
         return inflater.inflate(R.layout.fragment_new_recipe, container, false);
     }
 

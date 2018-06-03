@@ -1,11 +1,13 @@
 package nl.raymon.henk.kookbookapp;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,19 +19,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
-import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class SideNavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RecipeFragment.OnFragmentInteractionListener, MyRecipesFragment.OnFragmentInteractionListener, StatisticsFragment.OnFragmentInteractionListener, NewRecipeFragment.OnFragmentInteractionListener, HomeFragment.OnFragmentInteractionListener, OnlineRecipeListFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth firebaseInstance;
     private FirebaseUser user;
+    private boolean backPressedOnce = false;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,6 @@ public class SideNavigationActivity extends AppCompatActivity
             }
         });
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -58,11 +61,10 @@ public class SideNavigationActivity extends AppCompatActivity
         toggle.syncState();
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
         navigationView.getMenu().getItem(0).setChecked(true);
 
     }
@@ -70,11 +72,32 @@ public class SideNavigationActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            //DO NOTHING
+            if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) != null && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) == HomeFragment.newInstance()) {
+                    fragmentManager.popBackStack();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
+                }
+                super.onBackPressed();
+            } else if (fragmentManager.getBackStackEntryCount() == 0) {
+                if (backPressedOnce) {
+                    finishAffinity();
+                } else {
+                    backPressedOnce = true;
+                    Toast.makeText(this, "Press BACK again to exit", Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            backPressedOnce = false;
+                        }
+                    }, 2000);
+                }
+
+            }
         }
     }
 
@@ -112,33 +135,28 @@ public class SideNavigationActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-        Fragment fragment = null;
-
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.home) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
+            replaceFragment(HomeFragment.newInstance());
         } else if (id == R.id.my_recipes) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance()).commit();
+            replaceFragment(MyRecipesFragment.newInstance());
         } else if (id == R.id.online_recipes) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
+            replaceFragment(OnlineRecipeListFragment.newInstance());
         } else if (id == R.id.new_recipe) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, NewRecipeFragment.newInstance("", "")).commit();
+            replaceFragment(NewRecipeFragment.newInstance("", ""));
         } else if (id == R.id.statistics) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, StatisticsFragment.newInstance("", "")).commit();
+            replaceFragment(StatisticsFragment.newInstance("", ""));
 
         } else if (id == R.id.logout) {
             firebaseInstance.signOut();
             startActivity(new Intent(this, StartActivity.class));
         } else {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance("", "")).commit();
+            replaceFragment(HomeFragment.newInstance());
         }
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,23 +168,49 @@ public class SideNavigationActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
     }
 
-    public void setActionBarTitle(String title){
-        getSupportActionBar().setTitle(title);
+    public void setActionBarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 
-    public void goToMyRecipes(View v){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, MyRecipesFragment.newInstance()).commit();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    public void goToMyRecipes(View v) {
+        replaceFragment(MyRecipesFragment.newInstance());
         navigationView.getMenu().getItem(1).setChecked(true);
     }
 
-    public void goToOnlineRecipes(View v){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, OnlineRecipeListFragment.newInstance()).commit();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    public void goToOnlineRecipes(View v) {
+        replaceFragment(OnlineRecipeListFragment.newInstance());
         navigationView.getMenu().getItem(2).setChecked(true);
     }
 
-    public void goToRecipe(Recipe recipe){
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, RecipeFragment.newInstance(recipe)).commit();
+    public void goToRecipe(Recipe recipe) {
+        replaceFragment(RecipeFragment.newInstance(recipe));
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+    }
+
+    public void setSelectedMenuItem(int fragmentId) {
+        switch (fragmentId) {
+            case R.id.home:
+                navigationView.getMenu().getItem(0).setChecked(true);
+                break;
+            case R.id.my_recipes:
+                navigationView.getMenu().getItem(1).setChecked(true);
+                break;
+            case R.id.online_recipes:
+                navigationView.getMenu().getItem(2).setChecked(true);
+                break;
+            case R.id.new_recipe:
+                navigationView.getMenu().getItem(3).setChecked(true);
+                break;
+            case R.id.statistics:
+                navigationView.getMenu().getItem(4).setChecked(true);
+                break;
+            default:
+                navigationView.getMenu().getItem(0).setChecked(true);
+        }
     }
 }

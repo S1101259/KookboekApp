@@ -40,7 +40,6 @@ public class RecipeFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
-            ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         }
     }
 
@@ -48,6 +47,7 @@ public class RecipeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         ((TextView)v.findViewById(R.id.recipe_type)).setText(recipe.getType());
         ((TextView)v.findViewById(R.id.recipe_preparation_time)).setText((recipe.getCooking_time() + " Minuten"));
@@ -57,16 +57,80 @@ public class RecipeFragment extends Fragment{
         ExpandableListView cookingSteps = v.findViewById(R.id.cookingSteps);
         ExpandableListAdapter cookingStepsAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
         cookingSteps.setAdapter(cookingStepsAdapter);
+        cookingSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                setListViewHeight(parent, groupPosition);
+                return false;
+            }
+        });
 
         ExpandableListView ingredients = v.findViewById(R.id.ingredients);
         ExpandableListAdapter ingredientsAdapter = new ExpandableListAdapterIngredients(this.getContext(), recipe.getIngredients());
         ingredients.setAdapter(ingredientsAdapter);
+        ingredients.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                setListViewHeight(parent, groupPosition);
+                return false;
+            }
+        });
 
         ExpandableListView preparationSteps = v.findViewById(R.id.preparationSteps);
         ExpandableListAdapter preparationStepsAdapter = new ExpendableListAdapterPreparation(this.getContext(), recipe.getPreparation());
         preparationSteps.setAdapter(preparationStepsAdapter);
+        preparationSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                setListViewHeight(parent, groupPosition);
+                return false;
+            }
+        });
+
 
         return v;
+    }
+
+    private void setListViewHeight(ExpandableListView listView,
+                                   int group) {
+        ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
+        for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+            View groupItem = listAdapter.getGroupView(i, false, null, listView);
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+            totalHeight += groupItem.getMeasuredHeight();
+
+            if (((listView.isGroupExpanded(i)) && (i != group))
+                    || ((!listView.isGroupExpanded(i)) && (i == group))) {
+                for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
+                    View listItem = listAdapter.getChildView(i, j, false, null,
+                            listView);
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+
+                    totalHeight += listItem.getMeasuredHeight();
+
+                }
+            }
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        int height = totalHeight
+                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+        if (height < 10)
+            height = 200;
+        params.height = height;
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+
     }
 
     @Override
