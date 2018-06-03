@@ -116,18 +116,12 @@ public class RecipeFragment extends Fragment{
                             listView);
                     listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
 
-                    totalHeight += listItem.getMeasuredHeight();
-
+                    totalHeight += listItem.getMeasuredHeight() + 4 ;
                 }
             }
         }
-
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        int height = totalHeight
-                + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-        if (height < 10)
-            height = 200;
-        params.height = height;
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
 

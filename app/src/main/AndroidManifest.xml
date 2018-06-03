@@ -15,11 +15,13 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:screenOrientation="portrait">
+        android:screenOrientation="portrait"
+        >
         <activity
             android:name=".StartActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppNoActionBar">
+            android:theme="@style/AppNoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,7 +31,8 @@
 
         <activity
             android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity">
+            android:parentActivityName=".StartActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="nl.raymon.henk.kookbookapp.StartActivity" />
@@ -37,12 +40,14 @@
 
         <activity
             android:name=".RegisterActivity"
+            android:screenOrientation="portrait"
             />
 
         <activity
             android:name=".SideNavigationActivity"
             android:label="Home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
