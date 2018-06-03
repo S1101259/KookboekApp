@@ -69,7 +69,6 @@ public class OnlineRecipeListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
     }
 
     @Override
@@ -78,6 +77,9 @@ public class OnlineRecipeListFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
+        ((SideNavigationActivity) getActivity()).setActionBarTitle("Online Recepten");
+        ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.online_recipes);
+
         View view = inflater.inflate(R.layout.fragment_online_recipe_list, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.onlineRecipesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -39,12 +39,14 @@ public class MyRecipesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((SideNavigationActivity) getActivity()).setActionBarTitle("Mijn Recepten");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              Bundle savedInstanceState) {
+        ((SideNavigationActivity) getActivity()).setActionBarTitle("Mijn Recepten");
+        ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.my_recipes);
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
