@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.RecyclerView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/onlineRecipesRecyclerView"
-    android:scrollbars="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="8dp"
-    />
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/onlineRecipesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:scrollbars="vertical">
+
+
+    </android.support.v7.widget.RecyclerView>
+
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        android:layout_width="match_parent"
+        android:layout_height="59dp"
+        android:indeterminate="true"
+        android:progressBackgroundTint="@color/colorAppRed"
+        android:progressTint="@color/colorAppRed"
+        android:theme="@style/AppTheme"
+        android:secondaryProgressTint="@color/colorAppRed" />
+
+</RelativeLayout>

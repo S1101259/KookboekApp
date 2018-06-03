@@ -1,15 +1,19 @@
 package nl.raymon.henk.kookbookapp;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -17,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,12 +37,19 @@ import java.util.regex.Pattern;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     GoogleApiClient mGoogleApiClient;
     private static final String TAG = "SignIn";
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
     private View loginView;
+
+    private ProgressBar loginLoadingBar;
+    private EditText emailInput;
+    private EditText passwordInput;
+    private SignInButton googleSignInButton;
+    private Button loginButton;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +94,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             actionBar.hide();
         }
 
+        emailInput = findViewById(R.id.login_email);
+        passwordInput = findViewById(R.id.login_password);
+        googleSignInButton = findViewById(R.id.sign_in_google);
+        loginButton = findViewById(R.id.login_signin);
+        backButton = findViewById(R.id.login_back);
+
         loginView = findViewById(R.id.LoginActivity);
+        loginLoadingBar = loginView.findViewById(R.id.loginLoading);
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             goToHome();
         }
     }
@@ -110,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if(result.isSuccess() && result.getSignInAccount() != null){
+            if (result.isSuccess() && result.getSignInAccount() != null) {
                 firebaseAuthWithGoogle(result.getSignInAccount());
             }
         }
@@ -134,21 +153,28 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 });
     }
 
-    public void signInWithEmail(){
-        EditText emailInput = findViewById(R.id.login_email);
-        EditText passwordInput = findViewById(R.id.login_password);
-
+    public void signInWithEmail() {
         Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
         Matcher m = p.matcher(emailInput.getText());
 
-        if(!m.matches()){
+        if (!m.matches()) {
             emailInput.setError("Ongeldig e-mailadres");
             return;
         }
-        if(passwordInput.getText().toString().isEmpty()){
+        if (passwordInput.getText().toString().isEmpty()) {
             passwordInput.setError("Dit veld is vereist!");
             return;
         }
+
+        //Hide button and input elements while logging in
+        emailInput.setVisibility(View.INVISIBLE);
+        passwordInput.setVisibility(View.INVISIBLE);
+        googleSignInButton.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.INVISIBLE);
+        backButton.setVisibility(View.INVISIBLE);
+
+        loginLoadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(loginView.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
+        loginLoadingBar.setVisibility(View.VISIBLE);
 
         mAuth.signInWithEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -164,6 +190,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
 
+                            emailInput.setVisibility(View.VISIBLE);
+                            passwordInput.setVisibility(View.VISIBLE);
+                            googleSignInButton.setVisibility(View.VISIBLE);
+                            loginButton.setVisibility(View.VISIBLE);
+                            backButton.setVisibility(View.VISIBLE);
+                            loginLoadingBar.setVisibility(View.GONE);
+
+
                             final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
                             snackbar.setAction("Sluiten", new View.OnClickListener() {
                                 @Override
@@ -177,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 });
     }
 
-    public void goToHome(){
+    public void goToHome() {
         startActivity(new Intent(this, SideNavigationActivity.class));
     }
 }
