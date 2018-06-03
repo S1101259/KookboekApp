@@ -104,9 +104,11 @@ public class RecipeFragment extends Fragment{
                                    int group) {
         ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
         int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
+                View.MeasureSpec.EXACTLY);
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
             View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
 
             totalHeight += groupItem.getMeasuredHeight();
 
@@ -115,15 +117,14 @@ public class RecipeFragment extends Fragment{
                 for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
                     View listItem = listAdapter.getChildView(i, j, false, null,
                             listView);
-                    listItem.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
                     DisplayMetrics metrics = getResources().getDisplayMetrics();
-                    totalHeight += (listItem.getMeasuredHeight() + metrics.densityDpi / 160);
+                    totalHeight += (listItem.getMeasuredHeight() + metrics.density);
                 }
             }
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        listView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        totalHeight += listView.getDividerHeight() * listAdapter.getGroupCount();
+        totalHeight += (listView.getDividerHeight() * listAdapter.getGroupCount());
         params.height = totalHeight;
         listView.setLayoutParams(params);
         listView.requestLayout();
