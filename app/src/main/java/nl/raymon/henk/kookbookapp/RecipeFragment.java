@@ -102,13 +102,15 @@ public class RecipeFragment extends Fragment{
 
     private void setListViewHeight(ExpandableListView listView,
                                    int group) {
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+
         ExpandableListAdapter listAdapter = (ExpandableListAdapter) listView.getExpandableListAdapter();
         int totalHeight = 0;
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(),
                 View.MeasureSpec.EXACTLY);
         for (int i = 0; i < listAdapter.getGroupCount(); i++) {
             View groupItem = listAdapter.getGroupView(i, false, null, listView);
-            groupItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            groupItem.measure(desiredWidth, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
 
             totalHeight += groupItem.getMeasuredHeight();
 
@@ -117,14 +119,13 @@ public class RecipeFragment extends Fragment{
                 for (int j = 0; j < listAdapter.getChildrenCount(i); j++) {
                     View listItem = listAdapter.getChildView(i, j, false, null,
                             listView);
-                    listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
-                    DisplayMetrics metrics = getResources().getDisplayMetrics();
-                    totalHeight += (listItem.getMeasuredHeight() + metrics.density);
+                    listItem.measure(desiredWidth, View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                    totalHeight += (listItem.getMeasuredHeight() + (metrics.density));
                 }
             }
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        totalHeight += (listView.getDividerHeight() * listAdapter.getGroupCount());
+        totalHeight += ((listView.getDividerHeight()) * listAdapter.getGroupCount());
         params.height = totalHeight;
         listView.setLayoutParams(params);
         listView.requestLayout();
