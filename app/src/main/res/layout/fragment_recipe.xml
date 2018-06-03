@@ -49,7 +49,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center|end"
                 android:layout_margin="@dimen/text_margin"
-                android:drawableStart="@drawable/common_google_signin_btn_icon_disabled"
+                android:drawableStart="@drawable/ic_baseline_timer_24px"
                 android:gravity="center|end"
                 android:text="@string/prompt_preparation_time"
                 android:textAlignment="gravity"
