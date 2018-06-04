@@ -18,6 +18,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
     <string name="loginButton">Login</string>
     <string name="registerButton">Registreer</string>
     <string name="title_activity_side_navigation">SideNavigationActivity</string>
@@ -41,6 +42,11 @@
     <string name="prompt_recipe_name">Receptnaam</string>
     <string name="prompt_recipe_type">Type gerecht</string>
     <string name="content_description_recipe">Recipe Image</string>
+    <string name="content_serving_tip_recipe">Tip</string>
+    <string name="prompt_recipe_serving_tip">Serveer tip:</string>
+    <string name="list_group">ListGroup</string>
+    <string name="list_group_item_title">Title</string>
+    <string name="list_group_item_desc">Desc</string>
 
     <string name="start_background_image">Start Background Image</string>
     <string name="start_black_rectangle">Start Black Background Rectangle</string>

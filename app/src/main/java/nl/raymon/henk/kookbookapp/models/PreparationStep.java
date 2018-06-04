@@ -1,6 +1,8 @@
 package nl.raymon.henk.kookbookapp.models;
 
-public class PreparationStep {
+import java.io.Serializable;
+
+public class PreparationStep implements Serializable{
     private String part;
     private String description;
 
