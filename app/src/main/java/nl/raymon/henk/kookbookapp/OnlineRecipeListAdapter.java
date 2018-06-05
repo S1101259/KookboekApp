@@ -16,8 +16,8 @@ import nl.raymon.henk.kookbookapp.models.Recipe;
 public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
 //    private String[] myDataset;
     private SideNavigationActivity sideNavigationActivity;
-private ArrayList<Recipe> myDataset;
-    public OnlineRecipeListAdapter(ArrayList<Recipe> myDataset, SideNavigationActivity sideNavigationActivity) {
+private List<Recipe> myDataset;
+    public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity) {
         this.myDataset = myDataset;
         this.sideNavigationActivity = sideNavigationActivity;
     }
