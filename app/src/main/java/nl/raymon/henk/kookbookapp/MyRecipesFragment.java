@@ -54,7 +54,7 @@ public class MyRecipesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
         //todo give this adapter an actual list intead of an empty one
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter((ArrayList<Recipe>)AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
+        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
         recyclerView.setAdapter(onlineRecipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
