@@ -1,5 +1,6 @@
 package nl.raymon.henk.kookbookapp;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
 import nl.raymon.henk.kookbookapp.models.Recipe;
@@ -52,8 +54,7 @@ public class MyRecipesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
         //todo give this adapter an actual list intead of an empty one
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new ArrayList<Recipe>(),
-                ((SideNavigationActivity)getActivity()));
+        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter((ArrayList<Recipe>)AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
         recyclerView.setAdapter(onlineRecipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

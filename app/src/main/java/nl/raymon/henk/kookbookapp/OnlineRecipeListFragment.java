@@ -159,7 +159,7 @@ public class OnlineRecipeListFragment extends Fragment {
         List<CookingStep> cookingSteps = Arrays.asList(new CookingStep("Vullen Pan", "Vul de pan met water om bla bla allemaal dingen"), new CookingStep("Verhitten", "Verhit de pan tot 10000 graden Celsius"));
         List<PreparationStep> preparationSteps = Arrays.asList(new PreparationStep("dwadwa", "description"), new PreparationStep("2", "description"));
         List<String> ingredients = Arrays.asList("water", "iets anders");
-        List<Recipe> recipeList = Arrays.asList(new Recipe(cookingSteps, 15, ingredients, "ReceptNaam", preparationSteps, "", "Hoofdgerecht"), new Recipe(cookingSteps, 15, ingredients, "Ander Recept van Raymon", preparationSteps, "", "Nagerecht"));
+        List<Recipe> recipeList = Arrays.asList(new Recipe(1, cookingSteps, 15, ingredients, "ReceptNaam", preparationSteps, "", "Hoofdgerecht"), new Recipe(2, cookingSteps, 15, ingredients, "Ander Recept van Raymon", preparationSteps, "", "Nagerecht"));
 
     }
 }

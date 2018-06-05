@@ -1,5 +1,6 @@
 package nl.raymon.henk.kookbookapp;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.icu.util.Measure;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 
 import java.io.Serializable;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
@@ -46,6 +48,8 @@ public class RecipeFragment extends Fragment {
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
         }
+
+
     }
 
     @Override
