@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -148,9 +149,14 @@ public class OnlineRecipeListFragment extends Fragment {
                     Log.d("Recipe Image get", "downloadRecipes: recipe img path set to" + recipe.getImage());
                 }
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
             }
+        }else {
+            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
@@ -96,6 +97,8 @@ public class MyRecipesFragment extends Fragment {
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().delete(recipe);
             }
             renderRecyclerView();
+        }else {
+            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
         }
     }
 
