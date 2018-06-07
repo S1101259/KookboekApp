@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -44,11 +45,13 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
         onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
 
         String img = myDataset.get(position).getImage();
-        Log.d("Recipe Image in list", "onBindViewHolder: Recipe image:" + img);
         if (img != null) {
-            File image = new File(img);
-            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(image).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
-//            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+            if (URLUtil.isHttpsUrl(img) || URLUtil.isHttpUrl(img)) {
+                Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+            } else {
+                File image = new File(img);
+                Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(image).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+            }
         }
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

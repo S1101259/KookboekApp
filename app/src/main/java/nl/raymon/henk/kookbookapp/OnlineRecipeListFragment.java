@@ -121,7 +121,6 @@ public class OnlineRecipeListFragment extends Fragment {
             for (final Recipe recipe : download) {
                 StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(recipe.getImage());
                 StorageReference recipeImageRef = storageReference.child("images/recipeImage.jpg");
-                Log.d("Recipe Image", "downloadRecipes: recipe image url" + recipe.getImage());
                 try {
 
                     localFile = File.createTempFile("images", ".jpg");
@@ -132,8 +131,6 @@ public class OnlineRecipeListFragment extends Fragment {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         //Temp file created
-                        Log.d("Recipe Image File", "onSuccess: localFile=" + localFile);
-//                        recipe.setImage(localFile.getPath());
 
                     }
                 }).addOnFailureListener(new OnFailureListener() {
@@ -146,10 +143,10 @@ public class OnlineRecipeListFragment extends Fragment {
 
                 if (localFile != null) {
                     recipe.setImage(localFile.getPath());
-                    Log.d("Recipe Image get", "downloadRecipes: recipe img path set to" + recipe.getImage());
                 }
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
-                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
+//                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
+                Toast.makeText(getContext(), "Recepten succesvol gedownload", Toast.LENGTH_SHORT).show();
             }
         }else {
             Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();

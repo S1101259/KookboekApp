@@ -96,6 +96,7 @@ public class MyRecipesFragment extends Fragment {
             for (Recipe recipe: recipes) {
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().delete(recipe);
             }
+            Toast.makeText(getContext(), "Recept(en) succesvol verwijderd", Toast.LENGTH_SHORT).show();
             renderRecyclerView();
         }else {
             Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();

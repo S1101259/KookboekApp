@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.Serializable;
 
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
@@ -102,8 +104,13 @@ public class RecipeFragment extends Fragment {
         });
 
         ImageView imageView = v.findViewById(R.id.recipe_image);
-        if (recipe.getImage() != null){
-            Picasso.with(this.getContext()).load(recipe.getImage()).into(imageView);
+        if (recipe.getImage() != null) {
+            if (URLUtil.isHttpsUrl(recipe.getImage()) || URLUtil.isHttpUrl(recipe.getImage())) {
+                Picasso.with(this.getContext()).load(recipe.getImage()).into(imageView);
+            } else {
+                File image = new File(recipe.getImage());
+                Picasso.with(this.getContext()).load(image).into(imageView);
+            }
         }
         return v;
     }
