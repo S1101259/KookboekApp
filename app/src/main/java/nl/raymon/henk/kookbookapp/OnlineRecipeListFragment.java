@@ -18,13 +18,20 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,6 +58,7 @@ public class OnlineRecipeListFragment extends Fragment {
     private ProgressBar loadingBar;
     ArrayList<Recipe> onlineRecipes;
     OnlineRecipeListAdapter onlineRecipeListAdapter;
+    private File localFile = null;
 
     public OnlineRecipeListFragment() {
         // Required empty public constructor
@@ -105,10 +113,40 @@ public class OnlineRecipeListFragment extends Fragment {
         }
     }
 
-    public void downloadRecipes(){
+    public void downloadRecipes() {
         List<Recipe> download = onlineRecipeListAdapter.getSelectedList();
-        if (download.size() > 0){
-            for (Recipe recipe: download) {
+
+        if (download.size() > 0) {
+            for (final Recipe recipe : download) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(recipe.getImage());
+                StorageReference recipeImageRef = storageReference.child("images/recipeImage.jpg");
+                Log.d("Recipe Image", "downloadRecipes: recipe image url" + recipe.getImage());
+                try {
+
+                    localFile = File.createTempFile("images", ".jpg");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        //Temp file created
+                        Log.d("Recipe Image File", "onSuccess: localFile=" + localFile);
+//                        recipe.setImage(localFile.getPath());
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Error handling
+                        localFile = null;
+                    }
+                });
+
+                if (localFile != null) {
+                    recipe.setImage(localFile.getPath());
+                    Log.d("Recipe Image get", "downloadRecipes: recipe img path set to" + recipe.getImage());
+                }
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
             }
         }
@@ -154,9 +192,10 @@ public class OnlineRecipeListFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>(){};
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
+                };
                 onlineRecipes = dataSnapshot.getValue(t);
-                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
+                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()));
                 recyclerView.setAdapter(onlineRecipeListAdapter);
                 loadingBar.setVisibility(View.GONE);
 

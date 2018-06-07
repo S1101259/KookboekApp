@@ -14,16 +14,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
-//    private String[] myDataset;
+    //    private String[] myDataset;
     private SideNavigationActivity sideNavigationActivity;
     private List<Recipe> myDataset;
     private List<Recipe> selectedList;
+
     public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity) {
         this.myDataset = myDataset;
         this.sideNavigationActivity = sideNavigationActivity;
@@ -41,8 +43,12 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
         onlineRecipeListViewHolder.recipeName.setText(myDataset.get(position).getName());
         onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
 
-        if (myDataset.get(position).getImage() != null) {
-            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(myDataset.get(position).getImage()).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+        String img = myDataset.get(position).getImage();
+        Log.d("Recipe Image in list", "onBindViewHolder: Recipe image:" + img);
+        if (img != null) {
+            File image = new File(img);
+            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(image).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+//            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
         }
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +59,10 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
 
         onlineRecipeListViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-                if (isChecked){
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
                     selectedList.add(myDataset.get(position));
-                }else {
+                } else {
                     selectedList.remove(myDataset.get(position));
                 }
             }
