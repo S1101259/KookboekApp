@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -110,9 +111,14 @@ public class OnlineRecipeListFragment extends Fragment {
         if (download.size() > 0){
             for (Recipe recipe: download) {
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
             }
+        }else {
+            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     @Override
     public void onAttach(Context context) {

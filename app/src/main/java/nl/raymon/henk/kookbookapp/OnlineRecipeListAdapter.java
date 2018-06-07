@@ -41,8 +41,9 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
         onlineRecipeListViewHolder.recipeName.setText(myDataset.get(position).getName());
         onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
 
-        if (myDataset.get(position).getImage() != null) {
-            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(myDataset.get(position).getImage()).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
+        String img = myDataset.get(position).getImage();
+        if (img != null) {
+            Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
         }
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
