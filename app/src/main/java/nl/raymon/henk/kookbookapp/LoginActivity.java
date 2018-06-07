@@ -139,6 +139,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        hideLoginElements();
+
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -148,7 +150,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             goToHome();
+                            return;
                         }
+                        showLoginElements();
+
+                        final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Sluiten", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                            }
+                        });
+                        snackbar.show();
                     }
                 });
     }
@@ -165,16 +178,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             passwordInput.setError("Dit veld is vereist!");
             return;
         }
+        hideLoginElements();
 
-        //Hide button and input elements while logging in
-        emailInput.setVisibility(View.INVISIBLE);
-        passwordInput.setVisibility(View.INVISIBLE);
-        googleSignInButton.setVisibility(View.INVISIBLE);
-        loginButton.setVisibility(View.INVISIBLE);
-        backButton.setVisibility(View.INVISIBLE);
-
-        loginLoadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(loginView.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
-        loginLoadingBar.setVisibility(View.VISIBLE);
 
         mAuth.signInWithEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -185,30 +190,40 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             goToHome();
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithEmail:failure", task.getException());
-
-                            emailInput.setVisibility(View.VISIBLE);
-                            passwordInput.setVisibility(View.VISIBLE);
-                            googleSignInButton.setVisibility(View.VISIBLE);
-                            loginButton.setVisibility(View.VISIBLE);
-                            backButton.setVisibility(View.VISIBLE);
-                            loginLoadingBar.setVisibility(View.GONE);
-
-
-                            final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
-                            snackbar.setAction("Sluiten", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    snackbar.dismiss();
-                                }
-                            });
-                            snackbar.show();
+                            return;
                         }
+                        showLoginElements();
+
+                        final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
+                        snackbar.setAction("Sluiten", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                snackbar.dismiss();
+                            }
+                        });
+                        snackbar.show();
                     }
+
                 });
+    }
+
+    private void hideLoginElements() {
+        emailInput.setVisibility(View.INVISIBLE);
+        passwordInput.setVisibility(View.INVISIBLE);
+        googleSignInButton.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.INVISIBLE);
+        backButton.setVisibility(View.INVISIBLE);
+        loginLoadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(loginView.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
+        loginLoadingBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showLoginElements() {
+        emailInput.setVisibility(View.VISIBLE);
+        passwordInput.setVisibility(View.VISIBLE);
+        googleSignInButton.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        backButton.setVisibility(View.VISIBLE);
+        loginLoadingBar.setVisibility(View.GONE);
     }
 
     public void goToHome() {
