@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/delete_recipes"
+        android:icon="@drawable/ic_baseline_delete_24px"
+        android:title="@string/delete_recipes"
+        android:iconTint="@color/cardview_light_background"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/download_recipes"
+        android:icon="@drawable/ic_baseline_cloud_download_24px"
+        android:title="@string/download_recipes"
+        android:iconTint="@color/cardview_light_background"
+        android:visible="true"
+        app:showAsAction="ifRoom"/>
+
+    <!--<item-->
+        <!--android:id="@+id/action_settings"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_settings"-->
+        <!--app:showAsAction="never" />-->
 </menu>
