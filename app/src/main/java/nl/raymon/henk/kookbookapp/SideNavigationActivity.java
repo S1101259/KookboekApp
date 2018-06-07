@@ -72,6 +72,7 @@ public class SideNavigationActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        setFlag(SideNavigationActivity.HIDE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
@@ -99,6 +100,7 @@ public class SideNavigationActivity extends AppCompatActivity
                 }
 
             }
+
         }
     }
 
@@ -180,10 +182,10 @@ public class SideNavigationActivity extends AppCompatActivity
         } else if (id == R.id.logout) {
             firebaseInstance.signOut();
             startActivity(new Intent(this, StartActivity.class));
+            setFlag(SideNavigationActivity.HIDE);
         } else {
             replaceFragment(HomeFragment.newInstance());
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -221,6 +223,7 @@ public class SideNavigationActivity extends AppCompatActivity
 
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+        setFlag(SideNavigationActivity.HIDE);
     }
 
     public void setSelectedMenuItem(int fragmentId) {
