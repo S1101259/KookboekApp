@@ -45,15 +45,6 @@ public class SideNavigationActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -147,7 +138,7 @@ public class SideNavigationActivity extends AppCompatActivity
         } else if (id == R.id.online_recipes) {
             replaceFragment(OnlineRecipeListFragment.newInstance());
         } else if (id == R.id.new_recipe) {
-            replaceFragment(NewRecipeFragment.newInstance("", ""));
+            replaceFragment(NewRecipeFragment.newInstance());
         } else if (id == R.id.statistics) {
             replaceFragment(StatisticsFragment.newInstance("", ""));
 
@@ -182,6 +173,11 @@ public class SideNavigationActivity extends AppCompatActivity
     public void goToOnlineRecipes(View v) {
         replaceFragment(OnlineRecipeListFragment.newInstance());
         navigationView.getMenu().getItem(2).setChecked(true);
+    }
+
+    public void goToNewRecipe() {
+        replaceFragment(NewRecipeFragment.newInstance());
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 
     public void goToRecipe(Recipe recipe) {

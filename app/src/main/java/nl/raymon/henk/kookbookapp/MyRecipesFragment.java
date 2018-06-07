@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ public class MyRecipesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private OnlineRecipeListAdapter onlineRecipeListAdapter;
     private View view;
+    private FloatingActionButton floatingActionButton;
 
     public MyRecipesFragment() {
         // Required empty public constructor
@@ -55,6 +57,15 @@ public class MyRecipesFragment extends Fragment {
 
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
+        floatingActionButton = view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((SideNavigationActivity) getActivity()).goToNewRecipe();
+            }
+        });
+
+
         renderRecyclerView();
         view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
