@@ -23,11 +23,17 @@ import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
     //    private String[] myDataset;
+
+    public static final int ONLINERECIPES = 0;
+    public static final int MYRECIPES = 1;
+
     private SideNavigationActivity sideNavigationActivity;
     private List<Recipe> myDataset;
     private List<Recipe> selectedList;
+    private int type;
 
-    public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity) {
+    public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity, int type) {
+        this.type = type;
         this.myDataset = myDataset;
         this.sideNavigationActivity = sideNavigationActivity;
         this.selectedList = new ArrayList<>();
@@ -65,8 +71,16 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     selectedList.add(myDataset.get(position));
-                } else {
-                    selectedList.remove(myDataset.get(position));
+                    if (type == ONLINERECIPES) {
+                        sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
+                        return;
+                    }else
+                    sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
+                    return;
+                }
+                selectedList.remove(myDataset.get(position));
+                if (selectedList.size() < 1) {
+                    sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
                 }
             }
         });

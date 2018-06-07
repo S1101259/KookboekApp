@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,15 @@ public class SideNavigationActivity extends AppCompatActivity
     private FirebaseUser user;
     private boolean backPressedOnce = false;
     private NavigationView navigationView;
+
+
+
+    public static final int HIDE = 0;
+    public static final int DOWNLOAD = 1;
+    public static final int DELETE = 2;
+
+    private int flag = HIDE;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +117,37 @@ public class SideNavigationActivity extends AppCompatActivity
             Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
         }
 
-
+        changeIcon(menu.findItem(R.id.actionbar_icon));
         return true;
+    }
+
+    public void setFlag(int option){
+        this.flag = option;
+        invalidateOptionsMenu();
+    }
+
+    private void changeIcon(MenuItem item){
+        switch (flag) {
+            case HIDE:
+                item.setVisible(false);
+                break;
+
+            case DOWNLOAD:
+                item.setIcon(R.drawable.ic_baseline_cloud_download_24px);
+                item.setVisible(true);
+                break;
+
+
+            case DELETE:
+                item.setIcon(R.drawable.ic_baseline_delete_24px);
+                item.setVisible(true);
+                break;
+
+
+            default:
+                item.setVisible(false);
+                break;
+        }
     }
 
     @Override
@@ -118,10 +157,6 @@ public class SideNavigationActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
 
         return super.onOptionsItemSelected(item);
     }

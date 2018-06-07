@@ -3,20 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/delete_recipes"
+        android:id="@+id/actionbar_icon"
         android:icon="@drawable/ic_baseline_delete_24px"
+        android:tint="@android:color/white"
         android:title="@string/delete_recipes"
-        android:iconTint="@color/cardview_light_background"
         android:visible="true"
-        app:showAsAction="ifRoom"/>
-
-    <item
-        android:id="@+id/download_recipes"
-        android:icon="@drawable/ic_baseline_cloud_download_24px"
-        android:title="@string/download_recipes"
-        android:iconTint="@color/cardview_light_background"
-        android:visible="true"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"
+        android:orderInCategory="100"
+       />
 
     <!--<item-->
         <!--android:id="@+id/action_settings"-->
