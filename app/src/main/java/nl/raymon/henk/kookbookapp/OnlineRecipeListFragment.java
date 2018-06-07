@@ -97,14 +97,6 @@ public class OnlineRecipeListFragment extends Fragment {
         loadingBar = view.findViewById(R.id.loadingBar);
         loadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
         getOnlineRecipes();
-
-        view.findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                downloadRecipes();
-            }
-        });
-
         setHasOptionsMenu(true);
         return view;
     }

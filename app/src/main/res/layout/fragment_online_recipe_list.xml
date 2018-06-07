@@ -12,11 +12,6 @@
         android:scrollbars="vertical">
     </android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/download"/>
-
     <ProgressBar
         android:id="@+id/loadingBar"
         android:layout_width="match_parent"
