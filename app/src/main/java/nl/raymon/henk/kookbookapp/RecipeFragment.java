@@ -13,8 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -48,6 +51,7 @@ public class RecipeFragment extends Fragment {
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
         }
+//        AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
 
 
     }
@@ -96,6 +100,11 @@ public class RecipeFragment extends Fragment {
                 return false;
             }
         });
+
+        ImageView imageView = v.findViewById(R.id.recipe_image);
+        if (recipe.getImage() != null){
+            Picasso.with(this.getContext()).load(recipe.getImage()).into(imageView);
+        }
         return v;
     }
 

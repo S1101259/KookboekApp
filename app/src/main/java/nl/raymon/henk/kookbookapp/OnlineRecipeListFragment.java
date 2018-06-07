@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.models.CookingStep;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
 import nl.raymon.henk.kookbookapp.models.Recipe;
@@ -87,6 +88,13 @@ public class OnlineRecipeListFragment extends Fragment {
         loadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
         getOnlineRecipes();
 
+        view.findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadRecipes();
+            }
+        });
+
         return view;
     }
 
@@ -94,6 +102,15 @@ public class OnlineRecipeListFragment extends Fragment {
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    public void downloadRecipes(){
+        List<Recipe> download = onlineRecipeListAdapter.getSelectedList();
+        if (download.size() > 0){
+            for (Recipe recipe: download) {
+                AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+            }
         }
     }
 
@@ -159,7 +176,6 @@ public class OnlineRecipeListFragment extends Fragment {
         List<CookingStep> cookingSteps = Arrays.asList(new CookingStep("Vullen Pan", "Vul de pan met water om bla bla allemaal dingen"), new CookingStep("Verhitten", "Verhit de pan tot 10000 graden Celsius"));
         List<PreparationStep> preparationSteps = Arrays.asList(new PreparationStep("dwadwa", "description"), new PreparationStep("2", "description"));
         List<String> ingredients = Arrays.asList("water", "iets anders");
-        List<Recipe> recipeList = Arrays.asList(new Recipe(1, cookingSteps, 15, ingredients, "ReceptNaam", preparationSteps, "", "Hoofdgerecht"), new Recipe(2, cookingSteps, 15, ingredients, "Ander Recept van Raymon", preparationSteps, "", "Nagerecht"));
 
     }
 }

@@ -8,26 +8,14 @@ import java.io.Serializable;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = "cookingsteps", foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeID", onDelete = CASCADE))
 public class CookingStep implements Serializable {
 
-    @ColumnInfo(name = "step")
     private String step;
 
-    @ColumnInfo(name = "desc")
     private String description;
-
-    @ColumnInfo(name = "recipeId")
-    private int recipeId;
 
     public CookingStep() {
 
-    }
-
-    public CookingStep(String step, String description, int recipeId){
-        this.step = step;
-        this.description = description;
-        this.recipeId = recipeId;
     }
 
     public CookingStep(String step, String description) {

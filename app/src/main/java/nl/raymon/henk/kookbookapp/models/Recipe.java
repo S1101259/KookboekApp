@@ -1,13 +1,22 @@
 package nl.raymon.henk.kookbookapp.models;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import nl.raymon.henk.kookbookapp.database.CookingStepConverter;
+import nl.raymon.henk.kookbookapp.database.IngredientsConverter;
+import nl.raymon.henk.kookbookapp.database.PreparationStepConverter;
 
 @Entity(tableName="recipes")
 public class Recipe implements Serializable {
@@ -16,19 +25,23 @@ public class Recipe implements Serializable {
     @ColumnInfo(name = "id")
     private int id;
 
-    @Ignore
+    @SerializedName("cooking")
+    @TypeConverters(CookingStepConverter.class)
     private List<CookingStep> cooking;
 
     @ColumnInfo(name = "time")
     private int cooking_time;
 
-    @Ignore
+    @SerializedName("ingredients")
+    @TypeConverters(IngredientsConverter.class)
     private List<String> ingredients;
 
     @ColumnInfo(name = "name")
     private String name;
 
-    @Ignore
+
+    @SerializedName("preparation")
+    @TypeConverters(PreparationStepConverter.class)
     private List<PreparationStep> preparation;
 
     @ColumnInfo(name = "serving")
@@ -37,11 +50,14 @@ public class Recipe implements Serializable {
     @ColumnInfo(name = "type")
     private String type;
 
+    @ColumnInfo(name= "image")
+    private String image;
+
     public Recipe() {
 
     }
 
-    public Recipe(int id, List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type) {
+    public Recipe(int id, List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type, String image) {
         this.id= id;
         this.cooking = cooking;
         this.cooking_time = cooking_time;
@@ -50,6 +66,16 @@ public class Recipe implements Serializable {
         this.preparation = preparation;
         this.serving = serving;
         this.type = type;
+        this.image = image;
+    }
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int getId() {
@@ -64,7 +90,7 @@ public class Recipe implements Serializable {
         return cooking;
     }
 
-    public void setCooking(ArrayList<CookingStep> cooking) {
+    public void setCooking(List<CookingStep> cooking) {
         this.cooking = cooking;
     }
 
@@ -96,7 +122,7 @@ public class Recipe implements Serializable {
         return preparation;
     }
 
-    public void setPreparation(ArrayList<PreparationStep> preparation) {
+    public void setPreparation(List<PreparationStep> preparation) {
         this.preparation = preparation;
     }
 

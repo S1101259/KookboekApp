@@ -26,6 +26,8 @@ import java.util.List;
 public class MyRecipesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private OnlineRecipeListAdapter onlineRecipeListAdapter;
+    private View view;
 
     public MyRecipesFragment() {
         // Required empty public constructor
@@ -51,12 +53,14 @@ public class MyRecipesFragment extends Fragment {
         ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.my_recipes);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        //todo give this adapter an actual list intead of an empty one
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
-        recyclerView.setAdapter(onlineRecipeListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
+        renderRecyclerView();
+        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteRecipes();
+            }
+        });
 
         return view;
     }
@@ -83,6 +87,23 @@ public class MyRecipesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void deleteRecipes(){
+        List<Recipe> recipes = this.onlineRecipeListAdapter.getSelectedList();
+        if(recipes.size() > 0){
+            for (Recipe recipe: recipes) {
+                AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().delete(recipe);
+            }
+            renderRecyclerView();
+        }
+    }
+
+    public void renderRecyclerView(){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
+        onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
+        recyclerView.setAdapter(onlineRecipeListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     /**
