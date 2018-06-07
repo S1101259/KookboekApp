@@ -1,9 +1,11 @@
 package nl.raymon.henk.kookbookapp;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent;
 import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
 import nl.raymon.henk.kookbookapp.models.Recipe;
@@ -24,6 +28,9 @@ import java.util.List;
 public class MyRecipesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private OnlineRecipeListAdapter onlineRecipeListAdapter;
+    private View view;
+    private FloatingActionButton floatingActionButton;
 
     public MyRecipesFragment() {
         // Required empty public constructor
@@ -49,13 +56,23 @@ public class MyRecipesFragment extends Fragment {
         ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.my_recipes);
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        //todo give this adapter an actual list intead of an empty one
-        OnlineRecipeListAdapter onlineRecipeListAdapter = new OnlineRecipeListAdapter(new ArrayList<Recipe>(),
-                ((SideNavigationActivity)getActivity()));
-        recyclerView.setAdapter(onlineRecipeListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        view = inflater.inflate(R.layout.fragment_offline_recipe_list, container, false);
+        floatingActionButton = view.findViewById(R.id.fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((SideNavigationActivity) getActivity()).goToNewRecipe();
+            }
+        });
+
+
+        renderRecyclerView();
+        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteRecipes();
+            }
+        });
 
         return view;
     }
@@ -82,6 +99,26 @@ public class MyRecipesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void deleteRecipes(){
+        List<Recipe> recipes = this.onlineRecipeListAdapter.getSelectedList();
+        if(recipes.size() > 0){
+            for (Recipe recipe: recipes) {
+                AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().delete(recipe);
+            }
+            Toast.makeText(getContext(), "Recept(en) succesvol verwijderd", Toast.LENGTH_SHORT).show();
+            renderRecyclerView();
+        }else {
+            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void renderRecyclerView(){
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
+        onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
+        recyclerView.setAdapter(onlineRecipeListAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     /**

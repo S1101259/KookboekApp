@@ -1,5 +1,6 @@
 package nl.raymon.henk.kookbookapp;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.icu.util.Measure;
 import android.net.Uri;
@@ -10,15 +11,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.Serializable;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
@@ -46,6 +53,9 @@ public class RecipeFragment extends Fragment {
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
         }
+//        AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+
+
     }
 
     @Override
@@ -92,6 +102,16 @@ public class RecipeFragment extends Fragment {
                 return false;
             }
         });
+
+        ImageView imageView = v.findViewById(R.id.recipe_image);
+        if (recipe.getImage() != null) {
+            if (URLUtil.isHttpsUrl(recipe.getImage()) || URLUtil.isHttpUrl(recipe.getImage())) {
+                Picasso.with(this.getContext()).load(recipe.getImage()).into(imageView);
+            } else {
+                File image = new File(recipe.getImage());
+                Picasso.with(this.getContext()).load(image).into(imageView);
+            }
+        }
         return v;
     }
 

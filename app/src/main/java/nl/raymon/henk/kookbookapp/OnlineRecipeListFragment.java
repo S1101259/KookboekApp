@@ -17,19 +17,28 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.models.CookingStep;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
 import nl.raymon.henk.kookbookapp.models.Recipe;
@@ -50,6 +59,7 @@ public class OnlineRecipeListFragment extends Fragment {
     private ProgressBar loadingBar;
     ArrayList<Recipe> onlineRecipes;
     OnlineRecipeListAdapter onlineRecipeListAdapter;
+    private File localFile = null;
 
     public OnlineRecipeListFragment() {
         // Required empty public constructor
@@ -87,6 +97,13 @@ public class OnlineRecipeListFragment extends Fragment {
         loadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
         getOnlineRecipes();
 
+        view.findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadRecipes();
+            }
+        });
+
         return view;
     }
 
@@ -96,6 +113,47 @@ public class OnlineRecipeListFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+    public void downloadRecipes() {
+        List<Recipe> download = onlineRecipeListAdapter.getSelectedList();
+
+        if (download.size() > 0) {
+            for (final Recipe recipe : download) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(recipe.getImage());
+                StorageReference recipeImageRef = storageReference.child("images/recipeImage.jpg");
+                try {
+
+                    localFile = File.createTempFile("images", ".jpg");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        //Temp file created
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //Error handling
+                        localFile = null;
+                    }
+                });
+
+                if (localFile != null) {
+                    recipe.setImage(localFile.getPath());
+                }
+                AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+//                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
+                Toast.makeText(getContext(), "Recepten succesvol gedownload", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -137,9 +195,10 @@ public class OnlineRecipeListFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>(){};
+                GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
+                };
                 onlineRecipes = dataSnapshot.getValue(t);
-                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity)getActivity()));
+                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()));
                 recyclerView.setAdapter(onlineRecipeListAdapter);
                 loadingBar.setVisibility(View.GONE);
 
@@ -159,7 +218,6 @@ public class OnlineRecipeListFragment extends Fragment {
         List<CookingStep> cookingSteps = Arrays.asList(new CookingStep("Vullen Pan", "Vul de pan met water om bla bla allemaal dingen"), new CookingStep("Verhitten", "Verhit de pan tot 10000 graden Celsius"));
         List<PreparationStep> preparationSteps = Arrays.asList(new PreparationStep("dwadwa", "description"), new PreparationStep("2", "description"));
         List<String> ingredients = Arrays.asList("water", "iets anders");
-        List<Recipe> recipeList = Arrays.asList(new Recipe(cookingSteps, 15, ingredients, "ReceptNaam", preparationSteps, "", "Hoofdgerecht"), new Recipe(cookingSteps, 15, ingredients, "Ander Recept van Raymon", preparationSteps, "", "Nagerecht"));
 
     }
 }
