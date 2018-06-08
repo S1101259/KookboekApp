@@ -1,65 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewRecipeFragment">
+    android:fillViewport="true">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <EditText
-        android:id="@+id/recipeNameText"
-        android:layout_width="312dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp"
-        android:ems="10"
-        android:backgroundTint="@color/colorAppRed"
-        android:hint="@string/prompt_display_name"
-        android:inputType="textPersonName"
-        android:singleLine="true" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/preparationTimeNumber"
-        android:layout_width="310dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:backgroundTint="@color/colorAppRed"
-        android:layout_marginTop="175dp"
-        android:ems="10"
-        android:hint="@string/prompt_preparation_time"
-        android:inputType="number"
-        android:singleLine="true" />
+        <!-- TODO: Update blank fragment layout -->
 
-    <Switch
-        android:id="@+id/shareOnlineSwitch"
-        android:layout_width="312dp"
-        android:layout_height="37dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/recipeNameText"
-        android:layout_marginTop="245dp"
-        android:text="@string/prompt_share_online" />
 
-    <Spinner
-        android:id="@+id/recipyTypeSpinner"
-        android:layout_width="312dp"
-        android:layout_height="43dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="105dp"
-        android:entries="@array/recipe_types" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="315dp"
-        android:backgroundTint="@color/colorAppRed"
-        android:layout_height="234dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/recipeNameText"
-        android:layout_marginBottom="62dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
+            <EditText
+                android:id="@+id/preparationSteps"
+                android:layout_width="315dp"
+                android:layout_height="126dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="428dp"
+                android:backgroundTint="@color/colorAppRed"
+                android:ems="10"
+                android:hint="Voorebereidingsstappen door komma gescheiden (Voorbeeld hier)"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+            <EditText
+                android:id="@+id/ingredients"
+                android:layout_width="315dp"
+                android:layout_height="127dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="276dp"
+                android:backgroundTint="@color/colorAppRed"
+                android:ems="10"
+                android:hint="Ingrediënten door komma gescheiden (500g Pasta, 250g Gehakt, 1 eetlepel zonnebloemolie, etc)"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/preparationSteps2"
+                android:layout_width="312dp"
+                android:layout_height="125dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="576dp"
+                android:backgroundTint="@color/colorAppRed"
+                android:ems="10"
+                android:hint="Voorebereidingsstappen door komma gescheiden (Voorbeeld hier)"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/addNewRecipe"
+                android:layout_width="319dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="724dp"
+                android:text="@string/add_new_recipe_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/preparationTimeNumber"
+                android:layout_width="310dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="76dp"
+                android:backgroundTint="@color/colorAppRed"
+                android:ems="10"
+                android:hint="@string/prompt_preparation_time"
+                android:inputType="number"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/recipyTypeSpinner"
+                android:layout_width="312dp"
+                android:layout_height="43dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="208dp"
+                android:entries="@array/recipe_types"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/recipeNameText"
+                android:layout_width="312dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/colorAppRed"
+                android:ems="10"
+                android:hint="@string/prompt_display_name"
+                android:inputType="textPersonName"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Switch
+                android:id="@+id/shareOnlineSwitch"
+                android:layout_width="312dp"
+                android:layout_height="37dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="140dp"
+                android:text="@string/prompt_share_online"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>
