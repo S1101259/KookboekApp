@@ -7,6 +7,28 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.database.StatsDao;
 
 
 /**
@@ -64,9 +86,48 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View v = inflater.inflate(R.layout.fragment_statistics, container, false);
         ((SideNavigationActivity) getActivity()).setActionBarTitle("Statistieken");
         ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.statistics);
-        return inflater.inflate(R.layout.fragment_statistics, container, false);
+
+        BarChart chart = (BarChart) v.findViewById(R.id.chart);
+        final String[] quarters = new String[] { LocalDate.now().minusDays(4).toString(), LocalDate.now().minusDays(3).toString(), LocalDate.now().minusDays(2).toString(), LocalDate.now().minusDays(1).toString(), LocalDate.now().toString()};
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return quarters[(int) value];
+            }
+        };
+
+        List<BarEntry> entries = new ArrayList<BarEntry>();
+
+        StatsDao statsDao = AppDatabase.getInstance(getContext()).statsDao();
+        entries.add(new BarEntry(4, statsDao.countStats(LocalDate.now().toString())));
+        entries.add(new BarEntry(3, statsDao.countStats(LocalDate.now().minusDays(1).toString())));
+        entries.add(new BarEntry(2, statsDao.countStats(LocalDate.now().minusDays(2).toString())));
+        entries.add(new BarEntry(1, statsDao.countStats(LocalDate.now().minusDays(3).toString())));
+        entries.add(new BarEntry(0, statsDao.countStats(LocalDate.now().minusDays(4).toString())));
+
+        BarDataSet dataSet = new BarDataSet(entries, "Aantal recepten bekeken per dag");
+
+        List<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        dataSets.add(dataSet);
+
+        BarData data = new BarData(dataSets);
+
+        chart.setData(data);
+
+        XAxis xAxis = chart.getXAxis();
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(formatter);
+
+        chart.getDescription().setEnabled(false);
+        chart.invalidate();
+
+        ((TextView)v.findViewById(R.id.StatsCountAllValue)).setText(String.valueOf(statsDao.countAllStats()));
+        return v;
 
     }
 

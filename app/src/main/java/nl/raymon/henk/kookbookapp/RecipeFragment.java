@@ -24,9 +24,12 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Calendar;
 
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.models.Recipe;
+import nl.raymon.henk.kookbookapp.models.Stats;
 
 
 public class RecipeFragment extends Fragment {
@@ -53,14 +56,12 @@ public class RecipeFragment extends Fragment {
         if (getArguments() != null) {
             recipe = (Recipe) getArguments().getSerializable(ARG_PARAM1);
         }
-//        AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        AppDatabase.getInstance(getContext()).statsDao().insertStat(new Stats(LocalDate.now().toString()));
         ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         scrollView = v.findViewById(R.id.recipe_scroll_view);
