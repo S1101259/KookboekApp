@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -96,15 +97,19 @@ public class OnlineRecipeListFragment extends Fragment {
         loadingBar = view.findViewById(R.id.loadingBar);
         loadingBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this.getContext(), R.color.colorAppRed), PorterDuff.Mode.MULTIPLY);
         getOnlineRecipes();
-
-        view.findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                downloadRecipes();
-            }
-        });
-
+        setHasOptionsMenu(true);
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionbar_icon : {
+                downloadRecipes();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -198,7 +203,7 @@ public class OnlineRecipeListFragment extends Fragment {
                 GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
                 };
                 onlineRecipes = dataSnapshot.getValue(t);
-                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()));
+                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), OnlineRecipeListAdapter.ONLINERECIPES);
                 recyclerView.setAdapter(onlineRecipeListAdapter);
                 loadingBar.setVisibility(View.GONE);
 

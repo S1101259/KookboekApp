@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -67,14 +69,21 @@ public class MyRecipesFragment extends Fragment {
 
 
         renderRecyclerView();
-        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteRecipes();
-            }
-        });
+
+        setHasOptionsMenu(true);
 
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.actionbar_icon : {
+                deleteRecipes();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -116,7 +125,7 @@ public class MyRecipesFragment extends Fragment {
 
     public void renderRecyclerView(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()));
+        onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()), OnlineRecipeListAdapter.MYRECIPES);
         recyclerView.setAdapter(onlineRecipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
