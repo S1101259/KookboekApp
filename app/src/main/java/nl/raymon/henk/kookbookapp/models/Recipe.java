@@ -15,7 +15,7 @@ import nl.raymon.henk.kookbookapp.database.CookingStepConverter;
 import nl.raymon.henk.kookbookapp.database.IngredientsConverter;
 import nl.raymon.henk.kookbookapp.database.PreparationStepConverter;
 
-@Entity(tableName="recipes")
+@Entity(tableName = "recipes")
 public class Recipe implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -47,7 +47,7 @@ public class Recipe implements Serializable {
     @ColumnInfo(name = "type")
     private String type;
 
-    @ColumnInfo(name= "image")
+    @ColumnInfo(name = "image")
     private String image;
 
     public Recipe() {
@@ -56,7 +56,7 @@ public class Recipe implements Serializable {
 
     @Ignore
     public Recipe(int id, List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type, String image) {
-        this.id= id;
+        this.id = id;
         this.cooking = cooking;
         this.cooking_time = cooking_time;
         this.ingredients = ingredients;

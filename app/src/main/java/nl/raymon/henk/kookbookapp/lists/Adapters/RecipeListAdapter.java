@@ -23,19 +23,17 @@ import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.OnlineRecipeListViewHolder> {
-    //    private String[] myDataset;
-
-    public static final int ONLINERECIPES = 0;
-    public static final int MYRECIPES = 1;
+    public static final int DOWNLOAD = 0;
+    public static final int DELETE = 1;
 
     private SideNavigationActivity sideNavigationActivity;
-    private List<Recipe> myDataset;
+    private List<Recipe> recipeList;
     private List<Recipe> selectedList;
     private int type;
 
-    public RecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity, int type) {
+    public RecipeListAdapter(List<Recipe> recipeList, SideNavigationActivity sideNavigationActivity, int type) {
         this.type = type;
-        this.myDataset = myDataset;
+        this.recipeList = recipeList;
         this.sideNavigationActivity = sideNavigationActivity;
         this.selectedList = new ArrayList<>();
     }
@@ -48,10 +46,10 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
 
     @Override
     public void onBindViewHolder(OnlineRecipeListViewHolder onlineRecipeListViewHolder, final int position) {
-        onlineRecipeListViewHolder.recipeName.setText(myDataset.get(position).getName());
-        onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
+        onlineRecipeListViewHolder.recipeName.setText(recipeList.get(position).getName());
+        onlineRecipeListViewHolder.recipeType.setText(recipeList.get(position).getType());
 
-        String img = myDataset.get(position).getImage();
+        String img = recipeList.get(position).getImage();
         if (img != null) {
             if (URLUtil.isHttpsUrl(img) || URLUtil.isHttpUrl(img)) {
                 Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
@@ -63,7 +61,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sideNavigationActivity.goToRecipe(myDataset.get(position));
+                sideNavigationActivity.goToRecipe(recipeList.get(position));
             }
         });
 
@@ -71,15 +69,15 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    selectedList.add(myDataset.get(position));
-                    if (type == ONLINERECIPES) {
+                    selectedList.add(recipeList.get(position));
+                    if (type == DOWNLOAD) {
                         sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
                         return;
-                    }else
-                    sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
+                    } else
+                        sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
                     return;
                 }
-                selectedList.remove(myDataset.get(position));
+                selectedList.remove(recipeList.get(position));
                 if (selectedList.size() < 1) {
                     sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
                 }
@@ -89,7 +87,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
 
     @Override
     public int getItemCount() {
-        return myDataset.size();
+        return recipeList.size();
     }
 
     public List<Recipe> getSelectedList() {
@@ -97,13 +95,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
     }
 
     public static class OnlineRecipeListViewHolder extends RecyclerView.ViewHolder {
-        public TextView recipeName;
-        public TextView recipeType;
-        public CheckBox checkBox;
+        TextView recipeName;
+        TextView recipeType;
+        CheckBox checkBox;
         public ImageView imageView;
 
 
-        public OnlineRecipeListViewHolder(LinearLayout itemView) {
+        OnlineRecipeListViewHolder(LinearLayout itemView) {
             super(itemView);
             recipeName = itemView.findViewById(R.id.listItemTitle);
             recipeType = itemView.findViewById(R.id.listItemType);

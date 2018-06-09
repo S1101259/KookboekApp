@@ -72,41 +72,22 @@ public class RecipeFragment extends Fragment {
         ExpandableListView cookingSteps = v.findViewById(R.id.cookingSteps);
         ExpandableListAdapter cookingStepsAdapter = new ExpandableListAdapterCooking(this.getContext(), recipe.getCooking());
         cookingSteps.setAdapter(cookingStepsAdapter);
-        cookingSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return false;
-            }
-        });
+        setListViewOnClickListener(cookingSteps);
 
         ExpandableListView ingredients = v.findViewById(R.id.ingredients);
         ExpandableListAdapter ingredientsAdapter = new ExpandableListAdapterIngredients(this.getContext(), recipe.getIngredients());
         ingredients.setAdapter(ingredientsAdapter);
-        ingredients.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
-                return false;
-            }
-        });
+        setListViewOnClickListener(ingredients);
 
         ExpandableListView preparationSteps = v.findViewById(R.id.preparationSteps);
-            if(recipe.getPreparation() == null ){
-                List<PreparationStep> emptyPreparation = new ArrayList<>();
-                emptyPreparation.add(new PreparationStep("Voorbereiding", "Geen voorbereiding vereist"));
-                recipe.setPreparation(emptyPreparation);
-            }
+        if (recipe.getPreparation() == null) {
+            List<PreparationStep> emptyPreparation = new ArrayList<>();
+            emptyPreparation.add(new PreparationStep("Voorbereiding", "Geen voorbereiding vereist"));
+            recipe.setPreparation(emptyPreparation);
+        }
         ExpandableListAdapter preparationStepsAdapter = new ExpendableListAdapterPreparation(this.getContext(), recipe.getPreparation());
         preparationSteps.setAdapter(preparationStepsAdapter);
-        preparationSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
-
-            @Override
-            public boolean onGroupClick(ExpandableListView parent, View v,
-                                        int groupPosition, long id) {
-                return false;
-            }
-        });
+        setListViewOnClickListener(preparationSteps);
 
         ImageView imageView = v.findViewById(R.id.recipe_image);
         if (recipe.getImage() != null) {
@@ -136,6 +117,16 @@ public class RecipeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    private void setListViewOnClickListener(ExpandableListView listView) {
+        listView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id) {
+                return false;
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

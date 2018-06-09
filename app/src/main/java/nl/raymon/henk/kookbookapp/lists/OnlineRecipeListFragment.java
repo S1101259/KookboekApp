@@ -205,7 +205,7 @@ public class OnlineRecipeListFragment extends Fragment {
                 GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
                 };
                 onlineRecipes = dataSnapshot.getValue(t);
-                recipeListAdapter = new RecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), RecipeListAdapter.ONLINERECIPES);
+                recipeListAdapter = new RecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), RecipeListAdapter.DOWNLOAD);
                 recyclerView.setAdapter(recipeListAdapter);
                 loadingBar.setVisibility(View.GONE);
 

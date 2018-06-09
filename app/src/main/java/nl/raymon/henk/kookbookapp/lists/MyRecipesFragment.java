@@ -121,7 +121,7 @@ public class MyRecipesFragment extends Fragment {
 
     public void renderRecyclerView(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        recipeListAdapter = new RecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()), RecipeListAdapter.MYRECIPES);
+        recipeListAdapter = new RecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()), RecipeListAdapter.DELETE);
         recyclerView.setAdapter(recipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
