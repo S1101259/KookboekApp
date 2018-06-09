@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -34,12 +34,14 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.lists.Adapters.RecipeListAdapter;
 import nl.raymon.henk.kookbookapp.models.CookingStep;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
 import nl.raymon.henk.kookbookapp.models.Recipe;
@@ -59,7 +61,7 @@ public class OnlineRecipeListFragment extends Fragment {
     private RecyclerView recyclerView;
     private ProgressBar loadingBar;
     ArrayList<Recipe> onlineRecipes;
-    OnlineRecipeListAdapter onlineRecipeListAdapter;
+    RecipeListAdapter recipeListAdapter;
     private File localFile = null;
 
     public OnlineRecipeListFragment() {
@@ -120,7 +122,7 @@ public class OnlineRecipeListFragment extends Fragment {
     }
 
     public void downloadRecipes() {
-        List<Recipe> download = onlineRecipeListAdapter.getSelectedList();
+        List<Recipe> download = recipeListAdapter.getSelectedList();
 
         if (download.size() > 0) {
             for (final Recipe recipe : download) {
@@ -203,8 +205,8 @@ public class OnlineRecipeListFragment extends Fragment {
                 GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
                 };
                 onlineRecipes = dataSnapshot.getValue(t);
-                onlineRecipeListAdapter = new OnlineRecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), OnlineRecipeListAdapter.ONLINERECIPES);
-                recyclerView.setAdapter(onlineRecipeListAdapter);
+                recipeListAdapter = new RecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), RecipeListAdapter.ONLINERECIPES);
+                recyclerView.setAdapter(recipeListAdapter);
                 loadingBar.setVisibility(View.GONE);
 
                 LayoutAnimationController layoutAnimationController = AnimationUtils.loadLayoutAnimation(recyclerView.getContext(), R.anim.layout_animation_fall_down);

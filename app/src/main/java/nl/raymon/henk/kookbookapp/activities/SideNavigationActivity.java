@@ -1,14 +1,11 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +23,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import nl.raymon.henk.kookbookapp.standaloneFragments.HomeFragment;
+import nl.raymon.henk.kookbookapp.standaloneFragments.NewRecipeFragment;
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.standaloneFragments.RecipeFragment;
+import nl.raymon.henk.kookbookapp.standaloneFragments.StatisticsFragment;
+import nl.raymon.henk.kookbookapp.lists.MyRecipesFragment;
+import nl.raymon.henk.kookbookapp.lists.OnlineRecipeListFragment;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class SideNavigationActivity extends AppCompatActivity
@@ -112,14 +116,16 @@ public class SideNavigationActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.side_navigation, menu);
 
-        TextView title = findViewById(R.id.nav_title);
-        title.setText(user.getDisplayName());
+        if (user != null) {
+            TextView title = findViewById(R.id.nav_title);
+            title.setText(user.getDisplayName());
 
-        TextView subtitle = findViewById(R.id.nav_sub_title);
-        subtitle.setText(user.getEmail());
+            TextView subtitle = findViewById(R.id.nav_sub_title);
+            subtitle.setText(user.getEmail());
 
-        if (user.getPhotoUrl() != null) {
-            Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
+            if (user.getPhotoUrl() != null) {
+                Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
+            }
         }
 
         changeIcon(menu.findItem(R.id.actionbar_icon));
@@ -177,7 +183,7 @@ public class SideNavigationActivity extends AppCompatActivity
         } else if (id == R.id.new_recipe) {
             replaceFragment(NewRecipeFragment.newInstance());
         } else if (id == R.id.statistics) {
-            replaceFragment(StatisticsFragment.newInstance("", ""));
+            replaceFragment(StatisticsFragment.newInstance());
 
         } else if (id == R.id.logout) {
             firebaseInstance.signOut();

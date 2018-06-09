@@ -21,6 +21,7 @@ public class Stats {
         this.date = date;
     }
 
+    @Ignore
     public Stats(String date, int id) {
         this.date = date;
         this.id = id;

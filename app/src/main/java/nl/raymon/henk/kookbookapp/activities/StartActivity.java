@@ -1,16 +1,15 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import nl.raymon.henk.kookbookapp.R;
 
 public class StartActivity extends AppCompatActivity {
     private boolean backPressedOnce = false;

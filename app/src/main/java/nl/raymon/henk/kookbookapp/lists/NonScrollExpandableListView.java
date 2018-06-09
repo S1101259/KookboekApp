@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists;
 
 import android.content.Context;
 import android.util.AttributeSet;

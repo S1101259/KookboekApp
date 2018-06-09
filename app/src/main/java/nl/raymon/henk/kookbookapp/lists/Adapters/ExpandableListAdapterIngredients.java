@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,19 +7,18 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import nl.raymon.henk.kookbookapp.models.CookingStep;
+import nl.raymon.henk.kookbookapp.R;
 
-public class ExpandableListAdapterCooking extends BaseExpandableListAdapter{
+public class ExpandableListAdapterIngredients extends BaseExpandableListAdapter {
 
     private Context context;
-    private List<CookingStep> cookingSteps;
+    private List<String> ingredients;
 
-    ExpandableListAdapterCooking(Context context, List<CookingStep> cookingSteps){
+    public ExpandableListAdapterIngredients(Context context, List<String> ingredients){
         this.context = context;
-        this.cookingSteps = cookingSteps;
+        this.ingredients = ingredients;
     }
 
     @Override
@@ -29,17 +28,17 @@ public class ExpandableListAdapterCooking extends BaseExpandableListAdapter{
 
     @Override
     public int getChildrenCount(int i) {
-        return cookingSteps != null ? cookingSteps.size() : 0;
+        return ingredients!= null ? ingredients.size(): 0;
     }
 
     @Override
     public Object getGroup(int i) {
-        return "Stappen:";
+        return "Ingrediënten:";
     }
 
     @Override
     public Object getChild(int i, int i1) {
-        return this.cookingSteps.get(i1);
+        return this.ingredients.get(i1);
     }
 
     @Override
@@ -71,17 +70,16 @@ public class ExpandableListAdapterCooking extends BaseExpandableListAdapter{
 
     @Override
     public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
-        final CookingStep cookingStep = cookingSteps.get(i1);
-        final String step = cookingStep.getStep();
-        final String desc = cookingStep.getDescription();
+        final String ingredient = ingredients.get(i1);
+
 
         if (view == null){
             LayoutInflater inflater= (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view =  inflater.inflate(R.layout.single_recipe_list_group_item, null);
         }
 
-        ((TextView)view.findViewById(R.id.recipe_group_item_title)).setText(cookingStep.getStep());
-        ((TextView)view.findViewById(R.id.recipe_group_item_desc)).setText(cookingStep.getDescription());
+        ((TextView)view.findViewById(R.id.recipe_group_item_title)).setVisibility(View.GONE);
+        ((TextView)view.findViewById(R.id.recipe_group_item_desc)).setText(ingredient);
 
         return view;
     }

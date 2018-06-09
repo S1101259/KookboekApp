@@ -1,13 +1,8 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.standaloneFragments;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
-import android.icu.util.Measure;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +15,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.lists.Adapters.ExpandableListAdapterCooking;
+import nl.raymon.henk.kookbookapp.lists.Adapters.ExpandableListAdapterIngredients;
+import nl.raymon.henk.kookbookapp.lists.Adapters.ExpendableListAdapterPreparation;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 import nl.raymon.henk.kookbookapp.models.Stats;

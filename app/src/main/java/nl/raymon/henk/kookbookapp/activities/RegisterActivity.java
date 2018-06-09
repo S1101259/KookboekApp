@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,6 +20,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import nl.raymon.henk.kookbookapp.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

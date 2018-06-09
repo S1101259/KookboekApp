@@ -1,7 +1,6 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -19,9 +17,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.CircleTransform;
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
-public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.OnlineRecipeListViewHolder> {
     //    private String[] myDataset;
 
     public static final int ONLINERECIPES = 0;
@@ -32,7 +33,7 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
     private List<Recipe> selectedList;
     private int type;
 
-    public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity, int type) {
+    public RecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity, int type) {
         this.type = type;
         this.myDataset = myDataset;
         this.sideNavigationActivity = sideNavigationActivity;
@@ -40,7 +41,7 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
     }
 
     @Override
-    public OnlineRecipeListAdapter.OnlineRecipeListViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
+    public RecipeListAdapter.OnlineRecipeListViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.online_recipe_list_item, parent, false);
         return new OnlineRecipeListViewHolder(linearLayout);
     }

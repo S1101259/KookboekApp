@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -33,6 +33,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import nl.raymon.henk.kookbookapp.R;
 
 /**
  * A login screen that offers login via email/password.
