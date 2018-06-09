@@ -1,30 +1,23 @@
 package nl.raymon.henk.kookbookapp;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import nl.raymon.henk.kookbookapp.database.AppDatabase;
-import nl.raymon.henk.kookbookapp.dummy.DummyContent;
-import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
-import nl.raymon.henk.kookbookapp.models.Recipe;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
 public class MyRecipesFragment extends Fragment {

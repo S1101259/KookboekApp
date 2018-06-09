@@ -25,9 +25,12 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.models.PreparationStep;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 import nl.raymon.henk.kookbookapp.models.Stats;
 
@@ -93,6 +96,11 @@ public class RecipeFragment extends Fragment {
         });
 
         ExpandableListView preparationSteps = v.findViewById(R.id.preparationSteps);
+            if(recipe.getPreparation() == null ){
+                List<PreparationStep> emptyPreparation = new ArrayList<>();
+                emptyPreparation.add(new PreparationStep("Voorbereiding", "Geen voorbereiding vereist"));
+                recipe.setPreparation(emptyPreparation);
+            }
         ExpandableListAdapter preparationStepsAdapter = new ExpendableListAdapterPreparation(this.getContext(), recipe.getPreparation());
         preparationSteps.setAdapter(preparationStepsAdapter);
         preparationSteps.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {

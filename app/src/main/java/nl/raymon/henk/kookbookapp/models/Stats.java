@@ -2,6 +2,7 @@ package nl.raymon.henk.kookbookapp.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 
@@ -15,6 +16,7 @@ public class Stats {
 
     public Stats(){}
 
+    @Ignore
     public Stats(String date) {
         this.date = date;
     }

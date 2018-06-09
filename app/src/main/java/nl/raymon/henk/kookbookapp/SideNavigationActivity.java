@@ -36,14 +36,11 @@ public class SideNavigationActivity extends AppCompatActivity
     private boolean backPressedOnce = false;
     private NavigationView navigationView;
 
-
-
     public static final int HIDE = 0;
     public static final int DOWNLOAD = 1;
     public static final int DELETE = 2;
 
     private int flag = HIDE;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +58,21 @@ public class SideNavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) != null && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) == HomeFragment.newInstance()) {
+                fragmentManager.popBackStack();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
+            }
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -98,9 +103,7 @@ public class SideNavigationActivity extends AppCompatActivity
                         }
                     }, 2000);
                 }
-
             }
-
         }
     }
 
@@ -123,12 +126,12 @@ public class SideNavigationActivity extends AppCompatActivity
         return true;
     }
 
-    public void setFlag(int option){
+    public void setFlag(int option) {
         this.flag = option;
         invalidateOptionsMenu();
     }
 
-    private void changeIcon(MenuItem item){
+    private void changeIcon(MenuItem item) {
         switch (flag) {
             case HIDE:
                 item.setVisible(false);
@@ -139,12 +142,10 @@ public class SideNavigationActivity extends AppCompatActivity
                 item.setVisible(true);
                 break;
 
-
             case DELETE:
                 item.setIcon(R.drawable.ic_baseline_delete_24px);
                 item.setVisible(true);
                 break;
-
 
             default:
                 item.setVisible(false);
@@ -158,7 +159,6 @@ public class SideNavigationActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
         return super.onOptionsItemSelected(item);
     }

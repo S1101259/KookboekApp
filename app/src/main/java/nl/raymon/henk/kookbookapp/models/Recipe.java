@@ -1,17 +1,14 @@
 package nl.raymon.henk.kookbookapp.models;
 
 import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import nl.raymon.henk.kookbookapp.database.CookingStepConverter;
@@ -57,6 +54,7 @@ public class Recipe implements Serializable {
 
     }
 
+    @Ignore
     public Recipe(int id, List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type, String image) {
         this.id= id;
         this.cooking = cooking;
