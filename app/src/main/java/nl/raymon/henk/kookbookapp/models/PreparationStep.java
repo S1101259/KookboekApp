@@ -1,17 +1,9 @@
 package nl.raymon.henk.kookbookapp.models;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-
-import com.google.firebase.database.PropertyName;
-
 import java.io.Serializable;
 
-import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-
-public class PreparationStep implements Serializable{
+public class PreparationStep implements Serializable {
 
     private String part;
 

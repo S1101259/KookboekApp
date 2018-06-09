@@ -64,7 +64,7 @@
             android:background="#360204" />
 
 
-        <nl.raymon.henk.kookbookapp.NonScrollExpandableListView
+        <nl.raymon.henk.kookbookapp.lists.NonScrollExpandableListView
             android:id="@+id/ingredients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
             android:layout_marginVertical="4dp"
             android:background="#360204" />
 
-        <nl.raymon.henk.kookbookapp.NonScrollExpandableListView
+        <nl.raymon.henk.kookbookapp.lists.NonScrollExpandableListView
             android:id="@+id/preparationSteps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
             android:layout_marginVertical="4dp"
             android:background="#360204" />
 
-        <nl.raymon.henk.kookbookapp.NonScrollExpandableListView
+        <nl.raymon.henk.kookbookapp.lists.NonScrollExpandableListView
             android:id="@+id/cookingSteps"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

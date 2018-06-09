@@ -1,14 +1,11 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,6 +23,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import nl.raymon.henk.kookbookapp.standaloneFragments.HomeFragment;
+import nl.raymon.henk.kookbookapp.standaloneFragments.NewRecipeFragment;
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.standaloneFragments.RecipeFragment;
+import nl.raymon.henk.kookbookapp.standaloneFragments.StatisticsFragment;
+import nl.raymon.henk.kookbookapp.lists.MyRecipesFragment;
+import nl.raymon.henk.kookbookapp.lists.OnlineRecipeListFragment;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
 public class SideNavigationActivity extends AppCompatActivity
@@ -36,14 +40,11 @@ public class SideNavigationActivity extends AppCompatActivity
     private boolean backPressedOnce = false;
     private NavigationView navigationView;
 
-
-
     public static final int HIDE = 0;
     public static final int DOWNLOAD = 1;
     public static final int DELETE = 2;
 
     private int flag = HIDE;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,13 +62,21 @@ public class SideNavigationActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            if (fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) != null && fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1) == HomeFragment.newInstance()) {
+                fragmentManager.popBackStack();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, HomeFragment.newInstance()).commit();
+            }
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -98,9 +107,7 @@ public class SideNavigationActivity extends AppCompatActivity
                         }
                     }, 2000);
                 }
-
             }
-
         }
     }
 
@@ -109,26 +116,28 @@ public class SideNavigationActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.side_navigation, menu);
 
-        TextView title = findViewById(R.id.nav_title);
-        title.setText(user.getDisplayName());
+        if (user != null) {
+            TextView title = findViewById(R.id.nav_title);
+            title.setText(user.getDisplayName());
 
-        TextView subtitle = findViewById(R.id.nav_sub_title);
-        subtitle.setText(user.getEmail());
+            TextView subtitle = findViewById(R.id.nav_sub_title);
+            subtitle.setText(user.getEmail());
 
-        if (user.getPhotoUrl() != null) {
-            Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
+            if (user.getPhotoUrl() != null) {
+                Picasso.with(this).load(user.getPhotoUrl()).into((ImageView) findViewById(R.id.nav_user_icon));
+            }
         }
 
         changeIcon(menu.findItem(R.id.actionbar_icon));
         return true;
     }
 
-    public void setFlag(int option){
+    public void setFlag(int option) {
         this.flag = option;
         invalidateOptionsMenu();
     }
 
-    private void changeIcon(MenuItem item){
+    private void changeIcon(MenuItem item) {
         switch (flag) {
             case HIDE:
                 item.setVisible(false);
@@ -139,12 +148,10 @@ public class SideNavigationActivity extends AppCompatActivity
                 item.setVisible(true);
                 break;
 
-
             case DELETE:
                 item.setIcon(R.drawable.ic_baseline_delete_24px);
                 item.setVisible(true);
                 break;
-
 
             default:
                 item.setVisible(false);
@@ -158,7 +165,6 @@ public class SideNavigationActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -177,7 +183,7 @@ public class SideNavigationActivity extends AppCompatActivity
         } else if (id == R.id.new_recipe) {
             replaceFragment(NewRecipeFragment.newInstance());
         } else if (id == R.id.statistics) {
-            replaceFragment(StatisticsFragment.newInstance("", ""));
+            replaceFragment(StatisticsFragment.newInstance());
 
         } else if (id == R.id.logout) {
             firebaseInstance.signOut();

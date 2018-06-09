@@ -2,23 +2,27 @@ package nl.raymon.henk.kookbookapp.models;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 
-@Entity(tableName= "stats")
+@Entity(tableName = "stats")
 public class Stats {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    @ColumnInfo(name="date")
+    @ColumnInfo(name = "date")
     private String date;
 
-    public Stats(){}
+    public Stats() {
+    }
 
+    @Ignore
     public Stats(String date) {
         this.date = date;
     }
 
+    @Ignore
     public Stats(String date, int id) {
         this.date = date;
         this.id = id;

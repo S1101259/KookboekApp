@@ -1,36 +1,32 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
-import nl.raymon.henk.kookbookapp.database.AppDatabase;
-import nl.raymon.henk.kookbookapp.dummy.DummyContent;
-import nl.raymon.henk.kookbookapp.dummy.DummyContent.DummyItem;
-import nl.raymon.henk.kookbookapp.models.Recipe;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
+import nl.raymon.henk.kookbookapp.lists.Adapters.RecipeListAdapter;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
 public class MyRecipesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    private OnlineRecipeListAdapter onlineRecipeListAdapter;
+    private RecipeListAdapter recipeListAdapter;
     private View view;
     private FloatingActionButton floatingActionButton;
 
@@ -111,7 +107,7 @@ public class MyRecipesFragment extends Fragment {
     }
 
     public void deleteRecipes(){
-        List<Recipe> recipes = this.onlineRecipeListAdapter.getSelectedList();
+        List<Recipe> recipes = this.recipeListAdapter.getSelectedList();
         if(recipes.size() > 0){
             for (Recipe recipe: recipes) {
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().delete(recipe);
@@ -125,8 +121,8 @@ public class MyRecipesFragment extends Fragment {
 
     public void renderRecyclerView(){
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.offlineRecipesRecyclerView);
-        onlineRecipeListAdapter = new OnlineRecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()), OnlineRecipeListAdapter.MYRECIPES);
-        recyclerView.setAdapter(onlineRecipeListAdapter);
+        recipeListAdapter = new RecipeListAdapter(AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().getAll(), ((SideNavigationActivity)getActivity()), RecipeListAdapter.DELETE);
+        recyclerView.setAdapter(recipeListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 

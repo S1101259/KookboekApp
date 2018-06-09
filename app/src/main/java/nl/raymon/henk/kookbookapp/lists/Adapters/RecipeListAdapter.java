@@ -1,7 +1,6 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -19,38 +17,39 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.CircleTransform;
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.models.Recipe;
 
-public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeListAdapter.OnlineRecipeListViewHolder> {
-    //    private String[] myDataset;
-
-    public static final int ONLINERECIPES = 0;
-    public static final int MYRECIPES = 1;
+public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.OnlineRecipeListViewHolder> {
+    public static final int DOWNLOAD = 0;
+    public static final int DELETE = 1;
 
     private SideNavigationActivity sideNavigationActivity;
-    private List<Recipe> myDataset;
+    private List<Recipe> recipeList;
     private List<Recipe> selectedList;
     private int type;
 
-    public OnlineRecipeListAdapter(List<Recipe> myDataset, SideNavigationActivity sideNavigationActivity, int type) {
+    public RecipeListAdapter(List<Recipe> recipeList, SideNavigationActivity sideNavigationActivity, int type) {
         this.type = type;
-        this.myDataset = myDataset;
+        this.recipeList = recipeList;
         this.sideNavigationActivity = sideNavigationActivity;
         this.selectedList = new ArrayList<>();
     }
 
     @Override
-    public OnlineRecipeListAdapter.OnlineRecipeListViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
+    public RecipeListAdapter.OnlineRecipeListViewHolder onCreateViewHolder(ViewGroup parent, int ViewType) {
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.online_recipe_list_item, parent, false);
         return new OnlineRecipeListViewHolder(linearLayout);
     }
 
     @Override
     public void onBindViewHolder(OnlineRecipeListViewHolder onlineRecipeListViewHolder, final int position) {
-        onlineRecipeListViewHolder.recipeName.setText(myDataset.get(position).getName());
-        onlineRecipeListViewHolder.recipeType.setText(myDataset.get(position).getType());
+        onlineRecipeListViewHolder.recipeName.setText(recipeList.get(position).getName());
+        onlineRecipeListViewHolder.recipeType.setText(recipeList.get(position).getType());
 
-        String img = myDataset.get(position).getImage();
+        String img = recipeList.get(position).getImage();
         if (img != null) {
             if (URLUtil.isHttpsUrl(img) || URLUtil.isHttpUrl(img)) {
                 Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
@@ -62,7 +61,7 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sideNavigationActivity.goToRecipe(myDataset.get(position));
+                sideNavigationActivity.goToRecipe(recipeList.get(position));
             }
         });
 
@@ -70,15 +69,15 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    selectedList.add(myDataset.get(position));
-                    if (type == ONLINERECIPES) {
+                    selectedList.add(recipeList.get(position));
+                    if (type == DOWNLOAD) {
                         sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
                         return;
-                    }else
-                    sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
+                    } else
+                        sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
                     return;
                 }
-                selectedList.remove(myDataset.get(position));
+                selectedList.remove(recipeList.get(position));
                 if (selectedList.size() < 1) {
                     sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
                 }
@@ -88,7 +87,7 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
 
     @Override
     public int getItemCount() {
-        return myDataset.size();
+        return recipeList.size();
     }
 
     public List<Recipe> getSelectedList() {
@@ -96,13 +95,13 @@ public class OnlineRecipeListAdapter extends RecyclerView.Adapter<OnlineRecipeLi
     }
 
     public static class OnlineRecipeListViewHolder extends RecyclerView.ViewHolder {
-        public TextView recipeName;
-        public TextView recipeType;
-        public CheckBox checkBox;
+        TextView recipeName;
+        TextView recipeType;
+        CheckBox checkBox;
         public ImageView imageView;
 
 
-        public OnlineRecipeListViewHolder(LinearLayout itemView) {
+        OnlineRecipeListViewHolder(LinearLayout itemView) {
             super(itemView);
             recipeName = itemView.findViewById(R.id.listItemTitle);
             recipeType = itemView.findViewById(R.id.listItemType);

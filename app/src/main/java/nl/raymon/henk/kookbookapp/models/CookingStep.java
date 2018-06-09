@@ -1,12 +1,6 @@
 package nl.raymon.henk.kookbookapp.models;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-
 import java.io.Serializable;
-
-import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 public class CookingStep implements Serializable {
 

@@ -1,12 +1,11 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,11 +20,11 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import nl.raymon.henk.kookbookapp.R;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private Pattern p;
-    private Matcher m;
     private static final String TAG = "register";
 
     @Override
@@ -63,8 +62,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void onSubmit() {
         EditText email = findViewById(R.id.register_email);
-        p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
-        m = p.matcher(email.getText().toString());
+        Pattern p = Pattern.compile("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
+        Matcher m = p.matcher(email.getText().toString());
 
         if (!m.matches()) {
             email.setError("Ongeldig e-mailadres");
@@ -96,7 +95,6 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             if (user != null) {
@@ -109,7 +107,6 @@ public class RegisterActivity extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    Log.d(TAG, "User profile updated.");
                                                     goToHome();
                                                 }
                                             }
@@ -118,29 +115,25 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             View view = findViewById(R.id.registerLayout);
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                                final Snackbar snackbar = Snackbar.make(view, "Dit emailadres is al in gebruik", Snackbar.LENGTH_INDEFINITE);
-                                snackbar.setAction("Sluiten", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        snackbar.dismiss();
-                                    }
-                                });
-                                snackbar.show();
+                                showRegistrationFailureSnackbar(view, "Dit emailadres is al in gebruik");
                             } else {
-                                final Snackbar snackbar = Snackbar.make(view, "Account aanmaken mislukt", Snackbar.LENGTH_INDEFINITE);
-                                snackbar.setAction("Sluiten", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        snackbar.dismiss();
-                                    }
-                                });
-                                snackbar.show();
+                                showRegistrationFailureSnackbar(view, "Account aanmaken mislukt");
                             }
                         }
                     }
                 });
     }
 
+    private void showRegistrationFailureSnackbar(View view, String s) {
+        final Snackbar snackbar = Snackbar.make(view, s, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Sluiten", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
 
     public void goToHome() {
         startActivity(new Intent(this, SideNavigationActivity.class));

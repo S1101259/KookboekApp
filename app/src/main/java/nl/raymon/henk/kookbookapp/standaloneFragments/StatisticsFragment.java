@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.standaloneFragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,23 +10,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.R;
+import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
 import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.database.StatsDao;
 
@@ -40,15 +37,6 @@ import nl.raymon.henk.kookbookapp.database.StatsDao;
  * create an instance of this fragment.
  */
 public class StatisticsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
 
     public StatisticsFragment() {
@@ -59,27 +47,16 @@ public class StatisticsFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment StatisticsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StatisticsFragment newInstance(String param1, String param2) {
-        StatisticsFragment fragment = new StatisticsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static StatisticsFragment newInstance() {
+        return new StatisticsFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -91,7 +68,7 @@ public class StatisticsFragment extends Fragment {
         ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.statistics);
 
         BarChart chart = (BarChart) v.findViewById(R.id.chart);
-        final String[] quarters = new String[] { LocalDate.now().minusDays(4).toString(), LocalDate.now().minusDays(3).toString(), LocalDate.now().minusDays(2).toString(), LocalDate.now().minusDays(1).toString(), LocalDate.now().toString()};
+        final String[] quarters = new String[]{LocalDate.now().minusDays(4).toString(), LocalDate.now().minusDays(3).toString(), LocalDate.now().minusDays(2).toString(), LocalDate.now().minusDays(1).toString(), LocalDate.now().toString()};
 
         IAxisValueFormatter formatter = new IAxisValueFormatter() {
 
@@ -126,7 +103,7 @@ public class StatisticsFragment extends Fragment {
         chart.getDescription().setEnabled(false);
         chart.invalidate();
 
-        ((TextView)v.findViewById(R.id.StatsCountAllValue)).setText(String.valueOf(statsDao.countAllStats()));
+        ((TextView) v.findViewById(R.id.StatsCountAllValue)).setText(String.valueOf(statsDao.countAllStats()));
         return v;
 
     }

@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import nl.raymon.henk.kookbookapp.R;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
 
 public class ExpendableListAdapterPreparation extends BaseExpandableListAdapter {
@@ -16,7 +17,7 @@ public class ExpendableListAdapterPreparation extends BaseExpandableListAdapter 
     private Context context;
     private List<PreparationStep> preparationSteps;
 
-    ExpendableListAdapterPreparation(Context context, List<PreparationStep> preparationSteps){
+    public ExpendableListAdapterPreparation(Context context, List<PreparationStep> preparationSteps){
         this.context = context;
         this.preparationSteps = preparationSteps;
     }

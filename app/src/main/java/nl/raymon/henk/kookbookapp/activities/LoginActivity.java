@@ -1,4 +1,4 @@
-package nl.raymon.henk.kookbookapp;
+package nl.raymon.henk.kookbookapp.activities;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -33,6 +33,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import nl.raymon.henk.kookbookapp.R;
 
 /**
  * A login screen that offers login via email/password.
@@ -99,7 +101,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         googleSignInButton = findViewById(R.id.sign_in_google);
         loginButton = findViewById(R.id.login_signin);
         backButton = findViewById(R.id.login_back);
-
         loginView = findViewById(R.id.LoginActivity);
         loginLoadingBar = loginView.findViewById(R.id.loginLoading);
     }
@@ -153,15 +154,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             return;
                         }
                         showLoginElements();
-
-                        final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Sluiten", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
+                        showLoginFailureSnackbar();
                     }
                 });
     }
@@ -193,17 +186,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             return;
                         }
                         showLoginElements();
-
-                        final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
-                        snackbar.setAction("Sluiten", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                snackbar.dismiss();
-                            }
-                        });
-                        snackbar.show();
+                        showLoginFailureSnackbar();
                     }
-
                 });
     }
 
@@ -224,6 +208,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         loginButton.setVisibility(View.VISIBLE);
         backButton.setVisibility(View.VISIBLE);
         loginLoadingBar.setVisibility(View.GONE);
+    }
+
+    private void showLoginFailureSnackbar() {
+        final Snackbar snackbar = Snackbar.make(loginView, "Inloggen mislukt. \nControleer uw inloggegevens.", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("Sluiten", new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 
     public void goToHome() {

@@ -18,7 +18,7 @@
         android:screenOrientation="portrait"
         >
         <activity
-            android:name=".StartActivity"
+            android:name=".activities.StartActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppNoActionBar"
             android:screenOrientation="portrait">
@@ -30,21 +30,21 @@
         </activity>
 
         <activity
-            android:name=".LoginActivity"
-            android:parentActivityName=".StartActivity"
+            android:name=".activities.LoginActivity"
+            android:parentActivityName=".activities.StartActivity"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="nl.raymon.henk.kookbookapp.StartActivity" />
+                android:value="nl.raymon.henk.kookbookapp.activities.StartActivity" />
         </activity>
 
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:screenOrientation="portrait"
             />
 
         <activity
-            android:name=".SideNavigationActivity"
+            android:name=".activities.SideNavigationActivity"
             android:label="Home"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"></activity>
