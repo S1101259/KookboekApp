@@ -19,24 +19,9 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/preparationSteps"
-                android:layout_width="315dp"
-                android:layout_height="126dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="428dp"
-                android:backgroundTint="@color/colorAppRed"
-                android:ems="10"
-                android:hint="Voorebereidingsstappen door komma gescheiden (Voorbeeld hier)"
-                android:inputType="textMultiLine"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
                 android:id="@+id/ingredients"
                 android:layout_width="315dp"
-                android:layout_height="127dp"
+                android:layout_height="48dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="276dp"
@@ -48,29 +33,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/preparationSteps2"
-                android:layout_width="312dp"
-                android:layout_height="125dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="576dp"
-                android:backgroundTint="@color/colorAppRed"
-                android:ems="10"
-                android:hint="Voorebereidingsstappen door komma gescheiden (Voorbeeld hier)"
-                android:inputType="textMultiLine"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <Button
                 android:id="@+id/addNewRecipe"
                 android:layout_width="319dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="724dp"
+                android:layout_marginTop="1800dp"
                 android:text="@string/add_new_recipe_button"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,6 +102,206 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="320dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="14dp"
+                android:text="Kook Stappen"
+                app:layout_constraintBottom_toTopOf="@+id/cookingStepsRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cookingStepsRecyclerView"
+                android:layout_width="318dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="168dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.493"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.784" />
+
+            <EditText
+                android:id="@+id/cookingStepTitle"
+                android:layout_width="313dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginStart="98dp"
+                android:layout_marginTop="36dp"
+                android:ems="10"
+                android:hint="Stap titel"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/cookingStepDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cookingStepsRecyclerView" />
+
+            <EditText
+                android:id="@+id/cookingStepDescription"
+                android:layout_width="303dp"
+                android:layout_height="57dp"
+                android:layout_marginBottom="112dp"
+                android:layout_marginEnd="100dp"
+                android:layout_marginStart="98dp"
+                android:layout_marginTop="4dp"
+                android:ems="10"
+                android:hint="Beschrijving"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/addNewRecipe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cookingStepTitle" />
+
+            <Button
+                android:id="@+id/cookingStepAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
+                android:layout_marginEnd="273dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="22dp"
+                android:text="Voeg Toe"
+                app:layout_constraintBottom_toTopOf="@+id/addNewRecipe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cookingStepDescription" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="311dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="52dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="32dp"
+                android:text="Ingredienten"
+                app:layout_constraintBottom_toTopOf="@+id/ingredientsRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/ingredientsRecyclerView"
+                android:layout_width="311dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="54dp"
+                android:layout_marginStart="46dp"
+                app:layout_constraintBottom_toTopOf="@+id/ingredientName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <EditText
+                android:id="@+id/ingredientName"
+                android:layout_width="304dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginEnd="59dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="8dp"
+                android:ems="10"
+                android:hint="Ingredient en hoeveelheid"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/ingredientAddButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientsRecyclerView" />
+
+            <Button
+                android:id="@+id/ingredientAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="271dp"
+                android:layout_marginStart="50dp"
+                android:text="Voeg toe"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientName" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="310dp"
+                android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="38dp"
+                android:layout_marginStart="63dp"
+                android:layout_marginTop="37dp"
+                android:text="Voorbereidingsstappen"
+                app:layout_constraintBottom_toTopOf="@+id/preparationStepsRecyclerView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredientAddButton" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/preparationStepsRecyclerView"
+                android:layout_width="347dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/preparationStepTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <EditText
+                android:id="@+id/preparationStepTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="27dp"
+                android:layout_marginEnd="91dp"
+                android:layout_marginStart="107dp"
+                android:layout_marginTop="15dp"
+                android:ems="10"
+                android:hint="Titel"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/preparationStepDescription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preparationStepsRecyclerView" />
+
+            <EditText
+                android:id="@+id/preparationStepDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:layout_marginEnd="91dp"
+                android:layout_marginStart="107dp"
+                android:layout_marginTop="19dp"
+                android:ems="10"
+                android:hint="Beschrijving"
+                android:inputType="textPersonName"
+                app:layout_constraintBottom_toTopOf="@+id/preparationStepAddButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preparationStepTitle" />
+
+            <Button
+                android:id="@+id/preparationStepAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="141dp"
+                android:layout_marginEnd="291dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="17dp"
+                android:text="Voeg toe"
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/preparationStepDescription" />
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
