@@ -2,7 +2,9 @@ package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,9 +30,16 @@ public class CookingStepsListAdapter extends RecyclerView.Adapter<CookingStepsLi
     }
 
     @Override
-    public void onBindViewHolder(CookingStepsListAdapter.CookingStepsViewHolder holder, int position) {
+    public void onBindViewHolder(CookingStepsListAdapter.CookingStepsViewHolder holder, final int position) {
         holder.cookingStepTitle.setText(cookingStepList.get(position).getStep());
         holder.cookingStepDescription.setText(cookingStepList.get(position).getDescription());
+        holder.recipe_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeCookingStep(cookingStepList.get(position));
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -53,10 +62,12 @@ public class CookingStepsListAdapter extends RecyclerView.Adapter<CookingStepsLi
     public static class CookingStepsViewHolder extends RecyclerView.ViewHolder {
         TextView cookingStepTitle;
         TextView cookingStepDescription;
+        CheckBox recipe_check;
 
 
         CookingStepsViewHolder(LinearLayout itemView) {
             super(itemView);
+            recipe_check =itemView.findViewById(R.id.recipe_check);
             cookingStepTitle = itemView.findViewById(R.id.cookingStepTitle);
             cookingStepDescription = itemView.findViewById(R.id.cookingStepDescription);
         }

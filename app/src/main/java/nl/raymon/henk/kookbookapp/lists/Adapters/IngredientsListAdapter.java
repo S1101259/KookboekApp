@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,8 +28,15 @@ public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsList
     }
 
     @Override
-    public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, int position) {
+    public void onBindViewHolder(IngredientsListAdapter.IngredientsViewHolder holder, final int position) {
         holder.ingredient.setText(ingredients.get(position));
+        holder.recipe_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeIngredient(ingredients.get(position));
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -51,10 +59,12 @@ public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsList
 
     public static class IngredientsViewHolder extends RecyclerView.ViewHolder {
         TextView ingredient;
+        CheckBox recipe_check;
 
         IngredientsViewHolder(LinearLayout itemView) {
             super(itemView);
             ingredient = itemView.findViewById(R.id.ingredient);
+            recipe_check = itemView.findViewById(R.id.recipe_check);
 
         }
     }

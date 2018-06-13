@@ -2,7 +2,9 @@ package nl.raymon.henk.kookbookapp.lists.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,9 +29,16 @@ public class PreparationStepsListAdapter extends RecyclerView.Adapter<Preparatio
     }
 
     @Override
-    public void onBindViewHolder(PreparationStepsListAdapter.PreparationStepsViewHolder holder, int position) {
+    public void onBindViewHolder(PreparationStepsListAdapter.PreparationStepsViewHolder holder, final int position) {
         holder.preparationStepTitle.setText(preparationStepList.get(position).getPart());
         holder.preparationStepDescription.setText(preparationStepList.get(position).getDescription());
+        holder.recipe_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removePreparationStep(preparationStepList.get(position));
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -52,12 +61,14 @@ public class PreparationStepsListAdapter extends RecyclerView.Adapter<Preparatio
     public static class PreparationStepsViewHolder extends RecyclerView.ViewHolder {
         TextView preparationStepTitle;
         TextView preparationStepDescription;
+        CheckBox recipe_check;
 
 
         PreparationStepsViewHolder(LinearLayout itemView) {
             super(itemView);
             preparationStepTitle = itemView.findViewById(R.id.preparationStepTitle);
             preparationStepDescription = itemView.findViewById(R.id.preparationStepDescription);
+            recipe_check = itemView.findViewById(R.id.recipe_check);
         }
     }
 }
