@@ -60,6 +60,14 @@
     <string name="delete_recipes">Delete Recipes</string>
     <string name="download_recipes">Download Recipes</string>
     <string name="add_new_recipe_button">Voeg recept toe</string>
+    <string name="recept_informatie">Recept informatie</string>
+    <string name="ingredients">Ingrediënten</string>
+    <string name="ingredient_and_amount">Ingrediënt en hoeveelheid</string>
+    <string name="voeg_toe">Voeg toe</string>
+    <string name="voorbereidingsstappen">Voorbereidingsstappen</string>
+    <string name="stap_titel">Stap Titel</string>
+    <string name="beschrijving">Beschrijving</string>
+    <string name="kookstappen">Kookstappen</string>
 
     <string-array name="recipe_types">
         <item>Hoofdgerecht</item>

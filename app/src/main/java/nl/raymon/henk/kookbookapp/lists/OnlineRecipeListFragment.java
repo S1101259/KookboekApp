@@ -126,6 +126,7 @@ public class OnlineRecipeListFragment extends Fragment {
 
         if (download.size() > 0) {
             for (final Recipe recipe : download) {
+
                 StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(recipe.getImage());
                 StorageReference recipeImageRef = storageReference.child("images/recipeImage.jpg");
                 try {
@@ -204,7 +205,14 @@ public class OnlineRecipeListFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 GenericTypeIndicator<ArrayList<Recipe>> t = new GenericTypeIndicator<ArrayList<Recipe>>() {
                 };
-                onlineRecipes = dataSnapshot.getValue(t);
+
+                for(DataSnapshot d: dataSnapshot.getChildren()){
+                    Recipe recipe = d.getValue(Recipe.class);
+//                    recipe.setId(d.getKey());
+                    onlineRecipes.add(recipe);
+                }
+
+
                 recipeListAdapter = new RecipeListAdapter(onlineRecipes, ((SideNavigationActivity) getActivity()), RecipeListAdapter.DOWNLOAD);
                 recyclerView.setAdapter(recipeListAdapter);
                 loadingBar.setVisibility(View.GONE);

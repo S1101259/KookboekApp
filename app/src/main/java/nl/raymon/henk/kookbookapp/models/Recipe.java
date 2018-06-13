@@ -67,6 +67,18 @@ public class Recipe implements Serializable {
         this.image = image;
     }
 
+    @Ignore
+    public Recipe(List<CookingStep> cooking, int cooking_time, List<String> ingredients, String name, List<PreparationStep> preparation, String serving, String type, String image) {
+        this.cooking = cooking;
+        this.cooking_time = cooking_time;
+        this.ingredients = ingredients;
+        this.name = name;
+        this.preparation = preparation;
+        this.serving = serving;
+        this.type = type;
+        this.image = image;
+    }
+
 
     public String getImage() {
         return image;
