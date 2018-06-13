@@ -3,22 +3,40 @@ package nl.raymon.henk.kookbookapp.standaloneFragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
 
 import nl.raymon.henk.kookbookapp.R;
 import nl.raymon.henk.kookbookapp.activities.SideNavigationActivity;
+import nl.raymon.henk.kookbookapp.database.AppDatabase;
 import nl.raymon.henk.kookbookapp.lists.Adapters.CookingStepsListAdapter;
 import nl.raymon.henk.kookbookapp.lists.Adapters.IngredientsListAdapter;
 import nl.raymon.henk.kookbookapp.lists.Adapters.PreparationStepsListAdapter;
 import nl.raymon.henk.kookbookapp.models.CookingStep;
 import nl.raymon.henk.kookbookapp.models.PreparationStep;
+import nl.raymon.henk.kookbookapp.models.Recipe;
 
 
 /**
@@ -50,6 +68,14 @@ public class NewRecipeFragment extends Fragment {
     private TextView preparationStepDescription;
     private Button preparationStepAddButton;
 
+    private TextView preparationTimeNumber;
+    private TextView recipeNameText;
+    private Spinner recipyTypeSpinner;
+    private Switch shareOnlineSwitch;
+    private TextView servingTip;
+    private Button addNewRecipeButton;
+    private File localFile = null;
+
     public NewRecipeFragment() {
         // Required empty public constructor
     }
@@ -77,7 +103,22 @@ public class NewRecipeFragment extends Fragment {
         ((SideNavigationActivity) getActivity()).setActionBarTitle("Nieuw Recept");
         ((SideNavigationActivity) getActivity()).setSelectedMenuItem(R.id.new_recipe);
 
+
         View view = inflater.inflate(R.layout.fragment_new_recipe, container, false);
+        preparationTimeNumber = view.findViewById(R.id.preparationTimeNumber);
+        recipeNameText = view.findViewById(R.id.recipeNameText);
+        recipyTypeSpinner = view.findViewById(R.id.recipyTypeSpinner);
+        shareOnlineSwitch = view.findViewById(R.id.shareOnlineSwitch);
+        servingTip = view.findViewById(R.id.recipeServingTip);
+        addNewRecipeButton = view.findViewById(R.id.addNewRecipe);
+        addNewRecipeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewRecipe();
+            }
+        });
+
+
         //Create recyclerviews
         cookingStepsView = (RecyclerView) view.findViewById(R.id.cookingStepsRecyclerView);
         cookingStepsView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -110,11 +151,15 @@ public class NewRecipeFragment extends Fragment {
         cookingStepAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (cookingStepName.getText().toString().isEmpty() || cookingStepDescription.getText().toString().isEmpty()) {
+                    return;
+                }
                 CookingStep cookingStep = new CookingStep(cookingStepName.getText().toString(), cookingStepDescription.getText().toString());
                 cookingStepName.setText(null);
                 cookingStepDescription.setText(null);
                 cookingStepsAdapter.addCookingStep(cookingStep);
                 cookingStepsAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -125,11 +170,15 @@ public class NewRecipeFragment extends Fragment {
         preparationStepAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (preparationStepTitle.getText().toString().isEmpty() || preparationStepDescription.getText().toString().isEmpty()) {
+                    return;
+                }
                 PreparationStep preparationStep = new PreparationStep(preparationStepTitle.getText().toString(), preparationStepDescription.getText().toString());
                 preparationStepTitle.setText(null);
                 preparationStepDescription.setText(null);
                 preparationStepsListAdapter.addPreparationStep(preparationStep);
                 preparationStepsListAdapter.notifyDataSetChanged();
+
             }
         });
 
@@ -140,6 +189,9 @@ public class NewRecipeFragment extends Fragment {
         ingredientsAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (ingredient.getText().toString().isEmpty()) {
+                    return;
+                }
                 ingredientsListAdapter.addIngredient(ingredient.getText().toString());
                 ingredientsListAdapter.notifyDataSetChanged();
                 ingredient.setText(null);
@@ -147,6 +199,76 @@ public class NewRecipeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public void createNewRecipe() {
+        if (cookingStepsAdapter.getCookingStepsList().isEmpty() || ingredientsListAdapter.getIngredientsList().isEmpty() || recipeNameText.getText().toString().isEmpty() || recipyTypeSpinner.getSelectedItem().toString().isEmpty() || preparationTimeNumber.getText().toString().isEmpty()){
+            Toast.makeText(getContext(), "Nog niet alle verplichte velden zijn ingevuld!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final Recipe recipe = new Recipe(
+                cookingStepsAdapter.getCookingStepsList(),
+                Integer.parseInt(preparationTimeNumber.getText().toString()),
+                ingredientsListAdapter.getIngredientsList(),
+                recipeNameText.getText().toString(),
+                preparationStepsListAdapter.getPreparationStepList(),
+                servingTip.getText().toString(),
+                recipyTypeSpinner.getSelectedItem().toString(),
+                "https://firebasestorage.googleapis.com/v0/b/kookboekapp-1337.appspot.com/o/recipe_images%2Fplaceholder.jpg?alt=media&token=9bba5fce-58ec-48b1-91c9-41a5f669ac0d");
+
+        if (shareOnlineSwitch.isChecked()) {
+            Log.d("RECIPE", "createNewRecipe: ONLINE");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference();
+            reference.child("recipes").push().setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
+                    createNewLocalRecipe(recipe);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Er is iets misgegaan bij het uploaden van het recept", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            createNewLocalRecipe(recipe);
+        }
+
+        Log.d("RECIPE", "createNewRecipe: " + recipe);
+    }
+
+    private void createNewLocalRecipe(Recipe recipe) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(recipe.getImage());
+        StorageReference recipeImageRef = storageReference.child("images/recipeImage.jpg");
+        try {
+
+            localFile = File.createTempFile("images", ".jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        storageReference.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                //Temp file created
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                //Error handling
+                localFile = null;
+            }
+        });
+
+        if (localFile != null) {
+            recipe.setImage(localFile.getPath());
+        }
+        AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
+//                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
+        Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

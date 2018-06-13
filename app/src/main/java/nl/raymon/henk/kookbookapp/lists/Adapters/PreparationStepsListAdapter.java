@@ -45,6 +45,10 @@ public class PreparationStepsListAdapter extends RecyclerView.Adapter<Preparatio
         this.preparationStepList.remove(preparationStep);
     }
 
+    public List<PreparationStep> getPreparationStepList() {
+        return preparationStepList;
+    }
+
     public static class PreparationStepsViewHolder extends RecyclerView.ViewHolder {
         TextView preparationStepTitle;
         TextView preparationStepDescription;

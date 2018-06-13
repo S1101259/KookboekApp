@@ -46,6 +46,10 @@ public class CookingStepsListAdapter extends RecyclerView.Adapter<CookingStepsLi
         this.cookingStepList.remove(cookingStep);
     }
 
+    public List<CookingStep> getCookingStepsList() {
+        return cookingStepList;
+    }
+
     public static class CookingStepsViewHolder extends RecyclerView.ViewHolder {
         TextView cookingStepTitle;
         TextView cookingStepDescription;

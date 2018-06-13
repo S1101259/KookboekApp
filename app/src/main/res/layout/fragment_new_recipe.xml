@@ -220,6 +220,17 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"/>
 
+        <EditText
+            android:id="@+id/recipeServingTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/text_margin"
+            android:backgroundTint="@color/colorAppRed"
+            android:ems="10"
+            android:hint="@string/prompt_recipe_serving_tip"
+            android:inputType="textPersonName"
+            android:singleLine="true" />
+
         <!--Submit button-->
         <Button
             android:id="@+id/addNewRecipe"

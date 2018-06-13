@@ -44,6 +44,10 @@ public class IngredientsListAdapter extends RecyclerView.Adapter<IngredientsList
         this.ingredients.remove(ingredient);
     }
 
+    public List<String> getIngredientsList () {
+        return ingredients;
+    }
+
 
     public static class IngredientsViewHolder extends RecyclerView.ViewHolder {
         TextView ingredient;
