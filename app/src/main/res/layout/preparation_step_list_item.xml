@@ -22,7 +22,7 @@
             android:maxLines="1"
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
-            android:text="@string/prompt_recipe_name"
+            android:text="@string/stap_titel"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
             android:paddingEnd="8dp"
             android:paddingStart="8dp"
             android:paddingTop="1dp"
-            android:text="@string/prompt_recipe_type" />
+            android:text="@string/beschrijving" />
     </LinearLayout>
 
     <CheckBox
@@ -43,5 +43,6 @@
         android:layout_weight=".8"
         android:scaleX="1.25"
         android:scaleY="1.25"
+        android:button="@drawable/ic_baseline_clear_24px"
         android:textStyle="bold" />
 </LinearLayout>

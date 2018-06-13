@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
-            android:text="Recept informatie"
+            android:text="@string/recept_informatie"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
-            android:text="Ingredienten"
+            android:text="@string/ingredients"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -90,7 +90,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:ems="10"
-            android:hint="Ingredient en hoeveelheid"
+            android:hint="@string/ingredient_and_amount"
             android:inputType="textPersonName" />
 
         <Button
@@ -100,7 +100,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:background="@color/colorAppRed"
-            android:text="Voeg toe"
+            android:text="@string/voeg_toe"
             android:textColor="@android:color/white" />
 
         <android.support.v7.widget.RecyclerView
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
-            android:text="Voorbereidingsstappen"
+            android:text="@string/voorbereidingsstappen"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -135,7 +135,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:ems="10"
-            android:hint="Titel"
+            android:hint="@string/stap_titel"
             android:inputType="textPersonName" />
 
         <EditText
@@ -145,7 +145,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:ems="10"
-            android:hint="Beschrijving"
+            android:hint="@string/beschrijving"
             android:inputType="textPersonName" />
 
         <Button
@@ -155,7 +155,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:background="@color/colorAppRed"
-            android:text="Voeg toe"
+            android:text="@string/voeg_toe"
             android:textColor="@android:color/white" />
 
 
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
-            android:text="Kook Stappen"
+            android:text="@string/kookstappen"
             android:textSize="20sp"
             android:textStyle="bold"/>
 
@@ -191,7 +191,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:ems="10"
-            android:hint="Stap titel"
+            android:hint="@string/stap_titel"
             android:inputType="textPersonName" />
 
         <EditText
@@ -201,7 +201,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:ems="10"
-            android:hint="Beschrijving"
+            android:hint="@string/beschrijving"
             android:inputType="textPersonName" />
 
         <Button
@@ -211,7 +211,7 @@
             android:layout_marginHorizontal="@dimen/text_margin"
             android:layout_marginVertical="5dp"
             android:background="@color/colorAppRed"
-            android:text="Voeg Toe"
+            android:text="@string/voeg_toe"
             android:textColor="@android:color/white" />
 
         <android.support.v7.widget.RecyclerView
