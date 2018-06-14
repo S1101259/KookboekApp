@@ -243,6 +243,7 @@ public class NewRecipeFragment extends Fragment {
             }
 
         } else {
+            Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
             createNewLocalRecipe(recipe);
         }
 
@@ -277,7 +278,6 @@ public class NewRecipeFragment extends Fragment {
         }
         AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
 //                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
-        Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
         ((SideNavigationActivity) getActivity()).goToHome();
     }
 
