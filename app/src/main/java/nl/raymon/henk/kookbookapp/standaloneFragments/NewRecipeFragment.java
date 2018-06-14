@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -278,6 +279,11 @@ public class NewRecipeFragment extends Fragment {
         }
         AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
 //                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View v = getActivity().getCurrentFocus();
+        if (imm != null && v != null) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
         ((SideNavigationActivity) getActivity()).goToHome();
     }
 
