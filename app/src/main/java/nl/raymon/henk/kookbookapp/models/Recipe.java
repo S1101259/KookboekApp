@@ -17,6 +17,8 @@ import nl.raymon.henk.kookbookapp.database.PreparationStepConverter;
 
 @Entity(tableName = "recipes")
 public class Recipe implements Serializable {
+    @Ignore
+    private boolean isChecked;
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
@@ -79,6 +81,13 @@ public class Recipe implements Serializable {
         this.image = image;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
 
     public String getImage() {
         return image;

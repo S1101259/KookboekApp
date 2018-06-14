@@ -46,10 +46,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
 
     @Override
     public void onBindViewHolder(OnlineRecipeListViewHolder onlineRecipeListViewHolder, final int position) {
-        onlineRecipeListViewHolder.recipeName.setText(recipeList.get(position).getName());
-        onlineRecipeListViewHolder.recipeType.setText(recipeList.get(position).getType());
+        final Recipe item = recipeList.get(position);
 
-        String img = recipeList.get(position).getImage();
+        onlineRecipeListViewHolder.recipeName.setText(item.getName());
+        onlineRecipeListViewHolder.recipeType.setText(item.getType());
+        onlineRecipeListViewHolder.checkBox.setChecked(item.isChecked());
+
+        String img = item.getImage();
         if (img != null) {
             if (URLUtil.isHttpsUrl(img) || URLUtil.isHttpUrl(img)) {
                 Picasso.with(onlineRecipeListViewHolder.itemView.getContext()).load(img).transform(new CircleTransform()).into(onlineRecipeListViewHolder.imageView);
@@ -61,15 +64,16 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
         onlineRecipeListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sideNavigationActivity.goToRecipe(recipeList.get(position));
+                sideNavigationActivity.goToRecipe(item);
             }
         });
 
-        onlineRecipeListViewHolder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        onlineRecipeListViewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    selectedList.add(recipeList.get(position));
+            public void onClick(View view) {
+                if (!item.isChecked()) {
+                    item.setChecked(true);
+                    selectedList.add(item);
                     if (type == DOWNLOAD) {
                         sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
                         return;
@@ -77,11 +81,32 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
                         sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
                     return;
                 }
-                selectedList.remove(recipeList.get(position));
+
+                item.setChecked(false);
+                selectedList.remove(item);
+
                 if (selectedList.size() < 1) {
                     sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
                 }
             }
+            //            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                Recipe item = recipeList.get(position);
+//                if (!item.isChecked()) {
+//                    item.setChecked(true);
+//                    selectedList.add(recipeList.get(position));
+//                    if (type == DOWNLOAD) {
+//                        sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
+//                        return;
+//                    } else
+//                        sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
+//                    return;
+//                }
+//                selectedList.remove(recipeList.get(position));
+//                if (selectedList.size() < 1) {
+//                    sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
+//                }
+//            }
         });
     }
 
