@@ -153,11 +153,11 @@ public class OnlineRecipeListFragment extends Fragment {
                     recipe.setImage(localFile.getPath());
                 }
                 AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
-//                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
-                Toast.makeText(getContext(), "Recepten succesvol gedownload", Toast.LENGTH_SHORT).show();
+                ((SideNavigationActivity) getActivity()).goToHome();
+                Toast.makeText(getContext(), "Recept(en) succesvol gedownload", Toast.LENGTH_SHORT).show();
             }
         }else {
-            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Geen recept(en) geselecteerd",Toast.LENGTH_LONG).show();
         }
     }
 

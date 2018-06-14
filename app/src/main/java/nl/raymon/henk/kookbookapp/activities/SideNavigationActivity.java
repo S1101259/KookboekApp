@@ -223,6 +223,11 @@ public class SideNavigationActivity extends AppCompatActivity
         navigationView.getMenu().getItem(3).setChecked(true);
     }
 
+    public void goToHome() {
+        replaceFragment(HomeFragment.newInstance());
+        navigationView.getMenu().getItem(0).setChecked(true);
+    }
+
     public void goToRecipe(Recipe recipe) {
         replaceFragment(RecipeFragment.newInstance(recipe));
     }

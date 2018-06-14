@@ -115,7 +115,7 @@ public class MyRecipesFragment extends Fragment {
             Toast.makeText(getContext(), "Recept(en) succesvol verwijderd", Toast.LENGTH_SHORT).show();
             renderRecyclerView();
         }else {
-            Toast.makeText(getContext(), "Geen recepten geselecteerd",Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Geen recept(en) geselecteerd",Toast.LENGTH_LONG).show();
         }
     }
 

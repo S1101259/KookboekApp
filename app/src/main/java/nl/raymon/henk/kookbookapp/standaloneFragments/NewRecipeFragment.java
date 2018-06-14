@@ -1,6 +1,8 @@
 package nl.raymon.henk.kookbookapp.standaloneFragments;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -218,21 +220,28 @@ public class NewRecipeFragment extends Fragment {
                 "https://firebasestorage.googleapis.com/v0/b/kookboekapp-1337.appspot.com/o/recipe_images%2Fplaceholder.jpg?alt=media&token=9bba5fce-58ec-48b1-91c9-41a5f669ac0d");
 
         if (shareOnlineSwitch.isChecked()) {
-            Log.d("RECIPE", "createNewRecipe: ONLINE");
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference();
-            reference.child("recipes").push().setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
-                    createNewLocalRecipe(recipe);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(getContext(), "Er is iets misgegaan bij het uploaden van het recept", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+            if (isOnline()){
+                Log.d("RECIPE", "createNewRecipe: ONLINE");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference();
+                reference.child("recipes").push().setValue(recipe).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
+                        createNewLocalRecipe(recipe);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getContext(), "Er is iets misgegaan bij het uploaden van het recept", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), "Geen internetverbinding, recept wordt lokaal aangemaakt", Toast.LENGTH_SHORT).show();
+                createNewLocalRecipe(recipe);
+            }
+
         } else {
             createNewLocalRecipe(recipe);
         }
@@ -269,6 +278,7 @@ public class NewRecipeFragment extends Fragment {
         AppDatabase.getInstance(getActivity().getApplicationContext()).recipeDao().insertRecipe(recipe);
 //                ((SideNavigationActivity) getActivity()).goToMyRecipes(getView());
         Toast.makeText(getContext(), "Recept succesvol Aangemaakt", Toast.LENGTH_SHORT).show();
+        ((SideNavigationActivity) getActivity()).goToHome();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -308,5 +318,12 @@ public class NewRecipeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
