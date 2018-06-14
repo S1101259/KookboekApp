@@ -89,24 +89,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.On
                     sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
                 }
             }
-            //            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                Recipe item = recipeList.get(position);
-//                if (!item.isChecked()) {
-//                    item.setChecked(true);
-//                    selectedList.add(recipeList.get(position));
-//                    if (type == DOWNLOAD) {
-//                        sideNavigationActivity.setFlag(SideNavigationActivity.DOWNLOAD);
-//                        return;
-//                    } else
-//                        sideNavigationActivity.setFlag(SideNavigationActivity.DELETE);
-//                    return;
-//                }
-//                selectedList.remove(recipeList.get(position));
-//                if (selectedList.size() < 1) {
-//                    sideNavigationActivity.setFlag(SideNavigationActivity.HIDE);
-//                }
-//            }
         });
     }
 
