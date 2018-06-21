@@ -210,6 +210,11 @@ public class NewRecipeFragment extends Fragment {
             return;
         }
 
+        if (preparationTimeNumber.getText().toString().length() >= 15 || Long.parseLong(preparationTimeNumber.getText().toString()) >= Integer.MAX_VALUE){
+            Toast.makeText(getContext(), "Bereidingstijd moet korter zijn dan 2147483647", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final Recipe recipe = new Recipe(
                 cookingStepsAdapter.getCookingStepsList(),
                 Integer.parseInt(preparationTimeNumber.getText().toString()),

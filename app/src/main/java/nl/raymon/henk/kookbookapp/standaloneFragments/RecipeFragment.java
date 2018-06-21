@@ -1,6 +1,7 @@
 package nl.raymon.henk.kookbookapp.standaloneFragments;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -60,7 +61,9 @@ public class RecipeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        AppDatabase.getInstance(getContext()).statsDao().insertStat(new Stats(LocalDate.now().toString()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AppDatabase.getInstance(getContext()).statsDao().insertStat(new Stats(LocalDate.now().toString()));
+        }
         ((SideNavigationActivity) getActivity()).setActionBarTitle(recipe.getName());
         View v = inflater.inflate(R.layout.fragment_recipe, container, false);
         scrollView = v.findViewById(R.id.recipe_scroll_view);
